@@ -2,10 +2,10 @@
 
 ###安装
 
-安装第三方npm模块
+安装第三方npm模块</br>
 npm install
 
-1.运行webpack打包
+1.运行webpack打包</br>
 2.如果要打开npm start热替换进行开发，将webpack.config 的   publicPath : __dirname + '/build/' 改为    publicPath : '/build/'
 
 直接打开index.html测试
