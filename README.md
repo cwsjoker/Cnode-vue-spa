@@ -37,4 +37,4 @@ npm install
 └── webpack.js  	   // Webpack 配置文件
 </pre>
 
-![image](git@github.com:cwsjoker/Cnode-vue-spa.git/src/img/demo.gif)
+![image](https://github.com/cwsjoker/Cnode-vue-spa/blob/master/src/img/demo.gif)
