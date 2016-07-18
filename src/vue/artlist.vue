@@ -20,8 +20,7 @@
 	<nv-top></nv-top>
 </template>
 <script>
-	// js
-	module.exports = {
+	export default {
 		data : function() {
 			return {
 				initIndex : 0,
@@ -43,10 +42,9 @@
 			}
 		},
 		ready : function() {
-			var _this = this;
-			_this.gerArtlist(_this.initIndex);
-			$(window).on('scroll',function(){
-                _this.scrollArtlist();
+			this.gerArtlist(this.initIndex);
+			$(window).on('scroll',() => {
+                this.scrollArtlist();
              });
 		},
 		methods :  {
@@ -60,19 +58,18 @@
 			},
 			// 获取数据方法
 			gerArtlist : function() {
-				var rqdata = $.param(this.searchKey);
-				var _this = this;
-				$.get('https://cnodejs.org/api/v1/topics?' + rqdata, function(data){
+				let rqdata = $.param(this.searchKey);
+				$.get('https://cnodejs.org/api/v1/topics?' + rqdata, (data) => {
 					if(data.success){
-						_this.artlist = data['data'];
-						_this.scroll = true;
+						this.artlist = data['data'];
+						this.scroll = true;
 					}
 				})
 			},
 			// 超过滚动获取数据方法
 			scrollArtlist : function() {
 				if(this.scroll){
-					var totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
+					let totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
 	          		if ($(document).height() <= totalheight + 200) {
 	                    this.scroll = false;
 	                    this.searchKey.limit += 20;

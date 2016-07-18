@@ -6,7 +6,7 @@
 	<nv-menu :showm="menuShow"></nv-menu>
 </template>
 <script>
-	module.exports = {
+	export default {
 		data : function() {
 			return {
 				coverShow : false,

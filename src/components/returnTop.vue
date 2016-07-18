@@ -2,19 +2,18 @@
 	<div class="return-top" v-show="showTop" v-on:click="returnTop"></div>
 </template>
 <script>
-	module.exports = {
+	export default {
 		data : function() {
 			return {
 				showTop : false
 			}
 		},
 		ready : function() {
-			var _this = this;
-			$(window).on('scroll', function(){
+			$(window).on('scroll', () => {
 				if($(window).scrollTop() > 150){
-					_this.showTop = true;
+					this.showTop = true;
 				}else{
-					_this.showTop = false;
+					this.showTop = false;
 				}	
 			})
 		},

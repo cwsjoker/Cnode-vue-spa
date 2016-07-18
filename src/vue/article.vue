@@ -30,7 +30,7 @@
 	</div>
 </template>
 <script>
-	module.exports = {
+	export default {
 		data : function() {
 			return {
 				art : {
@@ -48,21 +48,18 @@
 		},
 		route : {
 			data (transition){
-				var _this = this;
-				_this.articleId = transition.to.params.id;
-				console.log(_this.articleId);
-				$.get('https://cnodejs.org/api/v1/topic/'+_this.articleId,function(d){
+				this.articleId = transition.to.params.id;
+				$.get('https://cnodejs.org/api/v1/topic/'+this.articleId,(d) => {
                     if(d && d.data){
-                        console.log(d.data);
                     	var D = d.data;
-                    	_this.art.title = D.title;
-                    	_this.art.content = D.content;
-                    	_this.art.createtime = D.create_at;
-                    	_this.art.author_name = D.author.loginname;
-                    	_this.art.author_avatar = D.author.avatar_url;
-                    	_this.art.visit_count = D.visit_count;
-                    	_this.art.reply_count = D.reply_count;
-                    	_this.replies = D.replies;
+                    	this.art.title = D.title;
+                    	this.art.content = D.content;
+                    	this.art.createtime = D.create_at;
+                    	this.art.author_name = D.author.loginname;
+                    	this.art.author_avatar = D.author.avatar_url;
+                    	this.art.visit_count = D.visit_count;
+                    	this.art.reply_count = D.reply_count;
+                    	this.replies = D.replies;
                     }
                 });
 			}
