@@ -43,4 +43,5 @@ npm install
 └── webpack.js  	   // Webpack 配置文件
 </pre>
 
+###效果预览
 ![image](https://github.com/cwsjoker/Cnode-vue-spa/blob/master/src/img/demo.gif)
