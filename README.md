@@ -36,3 +36,5 @@ npm install
 │   └── main.js        // Webpack 预编译入口	
 └── webpack.js  	   // Webpack 配置文件
 </pre>
+
+![image](git@github.com:cwsjoker/Cnode-vue-spa.git/src/img/demo.gif)

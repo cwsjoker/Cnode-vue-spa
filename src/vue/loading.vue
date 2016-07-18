@@ -4,11 +4,14 @@
 	</div>
 </template>
 <script>
-	module.exports = {
+	export default {
 		ready : function() {
-			var self = this;
-			setTimeout(function(){
-				self.$route.router.go({name:'artlist'});
+			// var self = this;
+			// setTimeout(function(){
+			// 	self.$route.router.go({name:'artlist'});
+			// }, 2000);
+			setTimeout(() => {
+				this.$route.router.go({name : 'artlist'});
 			}, 2000);
 		}
 	}
