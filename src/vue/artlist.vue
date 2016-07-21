@@ -10,9 +10,13 @@
 					<img :src="art.author.avatar_url" :alt="art.author.loginname">
 				</a>
 				<div class="art-inf">
-					<p class="title">{{art.title}}</p>
-					<span>{{art.reply_count}}/{{art.visit_count}}</span>
-					<span>{{art.create_at | getDateTime }}</span>
+					<em :title="art.tab | getArticleTab art.good art.top"
+						:class="art.good | getArticleClass art.top">
+						{{art.tab | getArticleTab art.good art.top}}
+					</em>
+					<a class="title">{{art.title}}</a>
+					<span class="rp-count">{{art.reply_count}}/{{art.visit_count}}</span>
+					<span class="last-time">{{art.last_reply_at | getLastTime }}</span>
 				</div>
 			</div>
 		</div>
@@ -132,20 +136,49 @@
 					}
 				}
 				.art-inf {
+					position: relative;
 					width: 80%;
 					height: 100%;
 					padding-left: 2.5rem;
-					p {
+					a {
+						display: inline-block;
 						overflow: hidden;
-						width: 100%;
-						height: 1rem;
+						width: 80%;
+						height: 1.2rem;
+						color: #000;
 						font-size: 0.8rem;
-						line-height: 1rem;
+						line-height: 1.5rem;
 						white-space: nowrap;
 						text-overflow: ellipsis;
 					}
-					span {
+					span, em {
 						display: inline-block;
+					}
+					em {
+						padding: 2px 4px;
+						background: #e5e5e5;
+						border-radius: 3px;
+					    -webkit-border-radius: 3px;
+					    -moz-border-radius: 3px;
+					    -o-border-radius: 3px;
+						color: #999;
+					    font-size: 0.8rem;
+					}
+					.put_good, .put_top {
+						background: #80bd01;
+					    color: #fff;
+					}
+					.rp-count {
+						margin-left:10%;
+						font-size: 12px;
+						padding: 2px 4px;
+					}
+					.last-time {
+						position: absolute;
+						right: 0px;
+						bottom: 0px;
+						font-size: 12px;
+						padding: 2px 4px;
 					}
 				}
 			}

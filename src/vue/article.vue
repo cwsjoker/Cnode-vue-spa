@@ -5,9 +5,10 @@
 			<div class="articletitle">
 				<h2>{{art.title}}</h2>
 				<div>
-					<span>发布于{{art.createtime}}</span>
+					<span>发布于{{art.createtime | getLastTime}}</span>
 					<span>作者{{art.author_name}}</span>
-					<span>{{art.reply_count}}/{{art.visit_count}}</span>
+					<span>{{art.reply_count}}次回复</span>
+					<span>{{art.visit_count}}次浏览</span>
 				</div>
 			</div>
 			<div class="articlecontent" v-html="art.content"></div>
@@ -19,7 +20,7 @@
 					<div class="author_content clearfix">
 						<img :src="reitem.author.avatar_url" :alt="reitem.author.loginname">
 						<span>{{reitem.author.loginname}}</span>
-						<span>{{reitem.create_at}}</span>
+						<span class="re-time">{{$index}}楼{{reitem.create_at | getLastTime}}</span>
 					</div>
 					<div class="repliescon">
 						<div class="repliescontent" v-html="reitem.content"></div>
@@ -88,6 +89,8 @@
 					span {
 						display: inlin-block;
 						margin-right:10px;
+						font-size: 12px;
+    					color: #838383;
 					}
 				}
 			}
@@ -107,21 +110,34 @@
 				padding: 10px;
 			}
 			li {
-				
 				padding: 10px;
+				border-top: 1px solid #f0f0f0;
 				.author_content {
+					position: relative;
 					img, span {
 						float:left;
-						display:inlin-block;
+						display:inline-block;
+					}
+					span {
+						margin-left: 10px;
+						line-height: 2rem;
 					}
 					img {
 						width: 30px;
 						height: 30px;
 					}
+					.re-time {
+						color: #08c;
+					}
 				}
 				.repliescon {
 					margin-top: 10px;
 					line-height: 18px;
+					.repliescontent {
+						background: #f0f0f0;
+						padding: 5px 2px;
+						border-radius: 5px;
+					}
 				}
 			}
 		}
