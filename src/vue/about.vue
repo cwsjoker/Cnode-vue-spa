@@ -26,9 +26,14 @@
 </script>
 <style lang="sass">
 	.about {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		margin: auto;
 		width: 100%;
-		height: 400px;
-		padding-top: 200px;
+		height: 200px;
 		img {
 			display: block;
 			width: 100px;
