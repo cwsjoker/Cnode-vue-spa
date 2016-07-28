@@ -20,6 +20,9 @@
 				</div>
 			</div>
 		</div>
+		<div class="loadingbox" v-show="showLoading">
+			<div class="loading"></div>
+		</div>
 	</div>
 	<nv-top></nv-top>
 </template>
@@ -29,6 +32,7 @@
 			return {
 				initIndex : 0,
 				scroll : true,
+				showLoading : false,
 				itemTab : [
 					{'title' : '全部', 'type' : 'all'},
 					{'title' : '精华', 'type' : 'good'},
@@ -67,6 +71,7 @@
 					if(data.success){
 						this.artlist = data['data'];
 						this.scroll = true;
+						this.showLoading = false;
 					}
 				})
 			},
@@ -77,7 +82,10 @@
 	          		if ($(document).height() <= totalheight + 200) {
 	                    this.scroll = false;
 	                    this.searchKey.limit += 20;
-	                    this.gerArtlist();
+	                    this.showLoading = true;
+	                    setTimeout(() => {
+	                    	this.gerArtlist();
+	                    }, 2000)
 	                }
 				}
 			}
@@ -146,8 +154,8 @@
 						width: 80%;
 						height: 1.2rem;
 						color: #000;
-						font-size: 0.8rem;
-						line-height: 1.5rem;
+						font-size: 1rem;
+						line-height: 1.2rem;
 						white-space: nowrap;
 						text-overflow: ellipsis;
 					}
@@ -183,7 +191,23 @@
 				}
 			}
 
-
+		}
+		.loadingbox {
+			position: relative;
+			width: 100%;
+			height: 40px;
+			.loading {
+				position: absolute;
+				width: 25px;
+				height: 25px;
+				left: 0px;
+				top: 0px;
+				right: 0px;
+				bottom: 0px;
+				margin: auto;
+				background: url('../img/loading.gif') no-repeat;
+				background-size: 100%;
+			}
 		}
 	}
 </style>
