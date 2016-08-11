@@ -40,7 +40,8 @@
 		z-index: 98;
 	}
 	.header {
-		position: relative;
+		position: fixed;
+		top : 0px;
 		width: 100%;
 		height: 3rem;
 		top: 0px;
@@ -50,6 +51,7 @@
 		border: 1px solid #e1e1e1;
 		text-align: center;
 		line-height: 3rem;
+		z-index: 10;
 		.left-menu {
 			position: absolute;
 			width: 2rem;

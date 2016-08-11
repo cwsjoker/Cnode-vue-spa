@@ -27,6 +27,9 @@
 	<nv-top></nv-top>
 </template>
 <script>
+	import store from '../vuex/store';
+	import nvHeader from '../components/header.vue';
+	import nvTop from '../components/returnTop.vue';
 	export default {
 		data : function() {
 			return {
@@ -91,15 +94,17 @@
 			}
 		},
 		components : {
-			'nv-header' : require('../components/header.vue'),
-			'nv-top' : require('../components/returnTop.vue')
-		}
+			'nv-header' : nvHeader,
+			'nv-top' : nvTop
+		},
+		store : store	//在组件加入store，让它的子组件和store连接
 	}
 </script>
 <style lang="sass">
 	.artlist{
 		overflow: hidden;
 		margin: 0 5px;
+		padding-top : 4rem;
 		.artlistTab {
 			margin: 0 auto 10px;
 			width: 100%;

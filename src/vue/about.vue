@@ -15,13 +15,16 @@
 	</div>
 </template>
 <script>
+	import store from '../vuex/store';
+	import nvHeader from '../components/header.vue';
 	export default {
 		ready : function(){
 
 		},
 		components : {
-			'nv-header' : require('../components/header.vue')
-		}
+			'nv-header' : nvHeader
+		},
+		store : store
 	}
 </script>
 <style lang="sass">

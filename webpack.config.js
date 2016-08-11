@@ -57,18 +57,19 @@ module.exports = {
         loader: 'url?limit=40000'
       },
       {
-        test: /\.jsx?$/,
-        loader: 'babel',
-        include: APP_PATH,
-        query: {
-          presets: ['es2015']
-        }
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
       }
     ]
   },
   vue: {
     css: ExtractTextPlugin.extract("css"),
     sass: ExtractTextPlugin.extract("css!sass-loader")
+  },
+  babel: {
+    // 告诉babel你要解析的语言
+    presets: ['es2015']
   },
   devServer: {
     historyApiFallback: true,

@@ -31,6 +31,8 @@
 	</div>
 </template>
 <script>
+	import store from '../vuex/store';
+	import nvHeader from '../components/header.vue';
 	export default {
 		data : function() {
 			return {
@@ -66,8 +68,9 @@
 			}
 		},
 		components : {
-			'nv-header' : require('../components/header.vue')
-		}
+			'nv-header' : nvHeader
+		},
+		store : store
 	}
 </script>
 <style lang="sass">

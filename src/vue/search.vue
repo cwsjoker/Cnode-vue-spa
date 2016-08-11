@@ -4,10 +4,13 @@
 	<p>敬请期待</p>
 </template>
 <script>
+	import store from '../vuex/store';
+	import nvHeader from '../components/header.vue';
 	export default {
 		components : {
-			'nv-header' : require('../components/header.vue')
-		}
+			'nv-header' : nvHeader
+		},
+		store : store
 	}
 </script>
 <style lang="sass">

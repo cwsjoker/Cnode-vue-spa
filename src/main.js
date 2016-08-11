@@ -65,10 +65,31 @@ router.map({
         }
     },
     '/login':{
-        //登录注册
+        //登录
         name : 'login',
         component: function (resolve) {
           require(['./vue/login.vue'],resolve)
+        }
+    },
+    '/usermessge':{
+        //消息中心
+        name : 'usermessge',
+        component: function (resolve) {
+          require(['./vue/usermessge.vue'],resolve)
+        }
+    },
+    '/userset':{
+        //个人设置
+        name : 'userset',
+        component: function (resolve) {
+          require(['./vue/userset.vue'],resolve)
+        }
+    },
+    '/userhome':{
+        //个人主页
+        name : 'userhome',
+        component: function (resolve) {
+          require(['./vue/userhome.vue'],resolve)
         }
     },
     '/about':{
