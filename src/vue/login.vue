@@ -36,6 +36,7 @@
 						localStorage.name = data.loginname;
 						localStorage.avatar = data.avatar_url;
 						localStorage.id = data.id;
+						localStorage.accesstoken = this.strToken;
 						window.history.back();
 					}else{
 						// 失败

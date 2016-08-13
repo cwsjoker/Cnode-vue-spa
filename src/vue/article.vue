@@ -20,19 +20,31 @@
 					<div class="author_content clearfix">
 						<img :src="reitem.author.avatar_url" :alt="reitem.author.loginname">
 						<span>{{reitem.author.loginname}}</span>
-						<span class="re-time">{{$index}}楼{{reitem.create_at | getLastTime}}</span>
+						<span class="re-time">{{$index + 1}}楼{{reitem.create_at | getLastTime}}</span>
+						<div class="replyhandle">
+							<em class="upbtn" @click="upreply">赞{{reitem.ups.length}}</em>
+							<em class="deletebtn" v-if="username === reitem.author.loginname" @click="deletereply">删</em>
+							<em class="replybtn" @click="replythis(reitem.id)">回</em>
+						</div>
 					</div>
 					<div class="repliescon">
 						<div class="repliescontent" v-html="reitem.content"></div>
 					</div>
+					<re-ply :replycontent.sync="replies" :artid="articleId" :islogin="userLoginState" :replyid="reitem.id" :replythisid.sync="replythisid" :replyto="reitem.author.loginname" v-if="replythisid === reitem.id"></re-ply>
 				</li>
 			</ul>
+		</div>
+		<div class="recommentbox">
+			<p>留下你的足迹:</p>
+			<re-ply :replycontent.sync="replies" :artid="articleId" :islogin="userLoginState" :replyid=""></re-ply>
 		</div>
 	</div>
 </template>
 <script>
 	import store from '../vuex/store';
 	import nvHeader from '../components/header.vue';
+	import rePly from '../components/reply.vue';
+	import {getLoginState} from '../vuex/getters';
 	export default {
 		data : function() {
 			return {
@@ -46,7 +58,11 @@
 					'reply_count' : 0
 				},
 				replies : [],
-				articleId : ''
+				articleId : '',
+				userid : localStorage.id || '',
+				username : localStorage.name || '',
+				accesstoken : localStorage.accesstoken || '',
+				replythisid : ''
 			}
 		},
 		route : {
@@ -67,10 +83,32 @@
                 });
 			}
 		},
-		components : {
-			'nv-header' : nvHeader
+		methods : {
+			replythis : function(id) {
+				if(!this.userLoginState){
+					// 未登陆，不能进行评论
+					this.$route.router.go({name : 'login'});
+					return;
+				}
+				this.replythisid = id;
+			},
+			deletereply : function() {
+				// cnode暂时没有删除的api接口
+			},
+			upreply : function() {
+
+			}
 		},
-		store : store
+		components : {
+			'nv-header' : nvHeader,
+			're-ply' : rePly
+		},
+		store : store,
+		vuex : {
+			getters : {
+				userLoginState : getLoginState
+			}
+		}
 	}
 </script>
 <style lang="sass">
@@ -133,6 +171,25 @@
 					.re-time {
 						color: #08c;
 					}
+					.replyhandle {
+						position : absolute;
+						right: 0px;
+						top : 0px;
+						em {
+							padding : 3px;
+							color : #fff;
+							border-radius : 2px;
+						}
+						.upbtn {
+							background : #159F5C;
+						}
+						.deletebtn {
+							background : #DD4F43;
+						}
+						.replybtn {
+							background : #FFCE42;
+						}
+					}
 				}
 				.repliescon {
 					margin-top: 10px;
@@ -145,6 +202,16 @@
 				}
 			}
 		}
-
+		.recommentbox {
+			width: 100%;
+			margin-bottom: 20px;
+			padding:10px;
+			p {
+				width : 100%;
+				height : 25px;
+				color : #08c;
+				font-size : 15px;
+			}
+		}
 	}
 </style>
