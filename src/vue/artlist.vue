@@ -97,6 +97,10 @@
 			'nv-header' : nvHeader,
 			'nv-top' : nvTop
 		},
+		destroyed : function() {
+			// 退出组件解除window的scroll事件,防止别的页面下拉加载。
+			$(window).off('scroll');
+		},
 		store : store	//在组件加入store，让它的子组件和store连接
 	}
 </script>
