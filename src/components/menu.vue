@@ -20,18 +20,19 @@
 </template>
 <script>
 	import store from '../vuex/store';
-	import {getLoginState} from '../vuex/getters';
+	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
 		props : ['showm'],
 		data : function() {
 			return {
-				user_name : localStorage.name || '',
-				user_avatar : localStorage.avatar || ''
+				user_name : this.getUserInfo.loginname || '',
+				user_avatar : this.getUserInfo.avatar || ''
 			}
 		},
 		vuex : {
 			getters : {
-				userLoginState : getLoginState
+				userLoginState : getLoginState,
+				getUserInfo :  getUserInfo
 			}
 		}
 	}

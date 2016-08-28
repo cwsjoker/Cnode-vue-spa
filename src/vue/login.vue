@@ -14,8 +14,8 @@
 <script>
 	import store from '../vuex/store';
 	import nvHeader from '../components/header.vue';
-	import {isLogin} from '../vuex/actions';
-	import {getLoginState} from '../vuex/getters';
+	import {isLogin, setUserInfo} from '../vuex/actions';
+	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
 		data : function(){
 			return {
@@ -24,7 +24,6 @@
 		},
 		methods : {
 			login : function() {
-				console.log(this.userLoginState);
 				let rqdata = {
 					'accesstoken' : this.strToken
 				}
@@ -33,10 +32,9 @@
 					if(data){
 						// 登入成功改变isLogin的状态为true
 						this.userLogin();
-						localStorage.name = data.loginname;
-						localStorage.avatar = data.avatar_url;
-						localStorage.id = data.id;
-						localStorage.accesstoken = this.strToken;
+						console.log(this.userLoginState);
+						this.setUserInfo(data.loginname, data.avatar_url, data.id, this.strToken)
+						console.log(JSON.stringify(this.getUserInfo));
 						window.history.back();
 					}else{
 						// 失败
@@ -50,10 +48,12 @@
 		store : store,
 		vuex : {
 			actions : {
-				userLogin : isLogin
+				userLogin : isLogin,
+				setUserInfo : setUserInfo
 			},
 			getters : {
-				userLoginState : getLoginState
+				userLoginState : getLoginState,
+				getUserInfo :  getUserInfo
 			}
 		}
 	}

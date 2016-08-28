@@ -44,7 +44,7 @@
 	import store from '../vuex/store';
 	import nvHeader from '../components/header.vue';
 	import rePly from '../components/reply.vue';
-	import {getLoginState} from '../vuex/getters';
+	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
 		data : function() {
 			return {
@@ -59,9 +59,9 @@
 				},
 				replies : [],
 				articleId : '',
-				userid : localStorage.id || '',
-				username : localStorage.name || '',
-				accesstoken : localStorage.accesstoken || '',
+				userid : this.getUserInfo.id || '',
+				username : this.getUserInfo.loginname || '',
+				accesstoken : this.getUserInfo.accesstoken || '',
 				replythisid : ''
 			}
 		},
@@ -106,7 +106,8 @@
 		store : store,
 		vuex : {
 			getters : {
-				userLoginState : getLoginState
+				userLoginState : getLoginState,
+				getUserInfo :  getUserInfo
 			}
 		}
 	}
