@@ -1,7 +1,7 @@
 <template>
 	<div v-if="tipShow" class="tips-cover">
 		<div class="alert">
-			<div class="con">{{tipContent}}</div>
+			<div class="tipcon">{{tipContent}}</div>
 			<div class="ok" @click="isHide">OK</div>
 		</div>
 	</div>
@@ -53,7 +53,7 @@
 			    border-radius: 3px;
 			    overflow: hidden;
 			    transition-property: transform,opacity,-webkit-transform!important;
-			    .con {
+			    .tipcon {
 			    	padding: 20px 20px;
 				    font-size: 15px;
 				    color: #888;

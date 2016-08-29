@@ -34,7 +34,12 @@ module.exports = {
     path: BUILD_PATH,
     filename: '[name].js',
     // 指向异步加载的路径
-    publicPath :  '/build/',
+    // 博客异步加载地址
+    // publicPath :  '/mystatic/CNode_Vue_Spa' + '/build/',
+    // 而替换异步加载地址
+    publicPath :  '/mystatic/CNode_Vue_Spa' + '/build/',
+    // 本地打开异步加载地址
+    // publicPath :  __dirname + '/build/',
     // 非主文件的命名规则
     chunkFilename: '[id].build.js?[chunkhash]'
   },
