@@ -14,7 +14,9 @@ const state = {
 		'avatar' : '',
 		'id' : '',
 		'accesstoken' : ''
-	}
+	},
+	tipContent : '',
+	tipShow : false
 }
 
 const mutations = {
@@ -33,6 +35,14 @@ const mutations = {
 		state.userInfo.avatar = avatar;
 		state.userInfo.id = id;
 		state.userInfo.accesstoken = accesstoken;
+	},
+	// 设置tips弹窗的提示信息
+	SETTIPCONTENT (state, content) {
+		state.tipContent = content;
+	},
+	// 设置tips弹窗的显示隐藏状态
+	SETTIPSHOW (state, status) {
+		state.tipShow = status;
 	}
 }
 

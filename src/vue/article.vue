@@ -1,5 +1,6 @@
 <template>
 	<nv-header></nv-header>
+	<tips></tips>
 	<div class="article">
 		<div class="articlebox">
 			<div class="articletitle">
@@ -43,6 +44,7 @@
 <script>
 	import store from '../vuex/store';
 	import nvHeader from '../components/header.vue';
+	import tips from '../components/tips.vue';
 	import rePly from '../components/reply.vue';
 	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
@@ -101,7 +103,8 @@
 		},
 		components : {
 			'nv-header' : nvHeader,
-			're-ply' : rePly
+			're-ply' : rePly,
+			'tips' : tips
 		},
 		store : store,
 		vuex : {

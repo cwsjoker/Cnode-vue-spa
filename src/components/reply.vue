@@ -3,12 +3,14 @@
 	<span class="rebtn" @click="recomment">回复</span>
 </template>
 <script>
+	import {setTipShow, setTipContent} from '../vuex/actions';
+	import {getUserInfo} from '../vuex/getters';
 	export default {
 		props : ['replycontent', 'artid', 'islogin', 'replyid', 'replythisid', 'replyto'],
 		data : function() {
 			return {
 				repliescontent : '',
-				accesstoken : localStorage.accesstoken
+				accesstoken : this.getUserInfo.accesstoken
 			}
 		},
 		ready : function() {
@@ -62,10 +64,21 @@
 						})
 					}else{
 						// 内容为空
+						this.tipShow(true);
+						this.tipContent('回复内容不能为空。');
 					}
 				}else{
 					this.$route.router.go({name : 'login'});
 				}
+			}
+		},
+		vuex : {
+			actions : {
+				tipShow : setTipShow,
+				tipContent : setTipContent
+			},
+			getters : {
+				getUserInfo : getUserInfo
 			}
 		}
 	}

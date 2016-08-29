@@ -1,21 +1,45 @@
 <template>
-	<div class="page-cover">
+	<div v-if="tipShow" class="tips-cover">
 		<div class="alert">
-			<div class="con"></div>
-			<div class="ok">OK</div>
+			<div class="con">{{tipContent}}</div>
+			<div class="ok" @click="isHide">OK</div>
 		</div>
 	</div>
 </template>
 <script>
-	
+	import {setTipShow, setTipContent} from '../vuex/actions';
+	import {getTipShow, getTipContent} from '../vuex/getters';
+	export default {
+		methods : {
+			isHide : function() {
+				this.setTipShow(false);
+				this.setTipContent('');
+			}
+		},
+		vuex : {
+			actions : {
+				setTipShow : setTipShow,
+				setTipContent : setTipContent
+			},
+			getters : {
+				tipShow : getTipShow,
+				tipContent : getTipContent
+			}
+		}
+
+	}
 </script>
 <style lang="sass">
-	.page-cover {
+	.tips-cover {
 		    position: fixed;
 		    width: 100%;
 		    height: 100%;
 		    top: 0;
 		    left: 0;
+		    z-index: 10000;
+		    background: rgba(0,0,0,.6);
+    		-webkit-transition: opacity 3.2s linear;
+    		transition: opacity 3.2s linear;
 		    .alert {
 		    	position: fixed;
 			    z-index: 5000;
@@ -28,8 +52,9 @@
 			    text-align: center;
 			    border-radius: 3px;
 			    overflow: hidden;
+			    transition-property: transform,opacity,-webkit-transform!important;
 			    .con {
-			    	padding: 0 20px;
+			    	padding: 20px 20px;
 				    font-size: 15px;
 				    color: #888;
 			    }
@@ -39,9 +64,7 @@
 				    margin-top: 20px;
 					color: #0bb20c;
 				    font-size: 17px;
-				    display: -webkit-box;
-				    display: -ms-flexbox;
-				    display: flex;
+				    text-align: center;
 			    }
 		    }
 		    .alert-transition {
@@ -49,5 +72,8 @@
 				webkit-transition-duration: .4s;
     			transition-duration: .4s;
 		    }
+	}
+	.tips-leave {
+		opacity : 0;
 	}
 </style>
