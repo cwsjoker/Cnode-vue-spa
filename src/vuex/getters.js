@@ -1,6 +1,6 @@
-export function getLoginState(state) {
+export const getLoginState = (state) => {
 	return state.isLogin;
 }
-export function getUserInfo(state) {
+export const getUserInfo = (state) => {
 	return state.userInfo;
 }
