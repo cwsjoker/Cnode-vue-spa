@@ -118,7 +118,7 @@
 <style lang="sass">
 	.article {
 		overflow: hidden;
-		margin: 10px 5px 0px;
+		margin: 45px 5px 0px;
 		> div {
 			margin-top:10px;
 			background: #fff;
