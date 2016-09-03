@@ -24,10 +24,10 @@
 		methods : {
 			recomment : function() {
 				// 判断是否登录，如果为登录去登录页面
-				console.log(this.replycontent);
-				console.log(this.artid);
-				console.log(this.islogin);
-				console.log(this.replyid);
+				// console.log(this.replycontent);
+				// console.log(this.artid);
+				// console.log(this.islogin);
+				// console.log(this.replyid);
 				if(this.islogin){
 					// 判断内容是否为空
 					if(this.repliescontent !== ''){
@@ -45,12 +45,12 @@
 								// 评论成功
 								this.replycontent.push({
 									'author' : {
-										'avatar_url' : localStorage.avatar,
-										'loginname' : localStorage.name
+										'avatar_url' : getUserInfo.avatar,
+										'loginname' : getUserInfo.loginname
 									},
 									'content' : this.repliescontent,
 									'create_at' : time,
-									'id' : localStorage.id,
+									'id' : getUserInfo.id,
 									'reply_id' : this.replyid,
 									'ups' : []
 								})

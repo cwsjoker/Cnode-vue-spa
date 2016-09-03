@@ -23,7 +23,7 @@
 						<span>{{reitem.author.loginname}}</span>
 						<span class="re-time">{{$index + 1}}楼{{reitem.create_at | getLastTime}}</span>
 						<div class="replyhandle">
-							<em class="upbtn" @click="upreply">赞{{reitem.ups.length}}</em>
+							<em class="upbtn" :class="{'isupbtn' : reitem.isup}" @click="upreply($index, reitem.id)">赞{{reitem.ups.length}}</em>
 							<em class="deletebtn" v-if="username === reitem.author.loginname" @click="deletereply">删</em>
 							<em class="replybtn" @click="replythis(reitem.id)">回</em>
 						</div>
@@ -46,6 +46,7 @@
 	import nvHeader from '../components/header.vue';
 	import tips from '../components/tips.vue';
 	import rePly from '../components/reply.vue';
+	import {setTipShow, setTipContent} from '../vuex/actions';
 	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
 		data : function() {
@@ -80,7 +81,26 @@
                     	this.art.author_avatar = D.author.avatar_url;
                     	this.art.visit_count = D.visit_count;
                     	this.art.reply_count = D.reply_count;
+                    	// 给每一条评论添加一个不点亮的赞效果，添加完属性在赋值
+                    	for (const replies of D.replies) {
+                    		replies.isup = false;
+                    	};
                     	this.replies = D.replies;
+                    	// 判断本条回复是否自己已点赞
+                    	if(this.userid != ''){
+                    		// 循环评论
+	                    	for (const repliesItem of this.replies) {
+	                    		// 循环评论的回复
+	                    		for (const repliesItemUps of repliesItem.ups) {
+	                    			if(repliesItemUps === this.userid){
+	                    				console.log('已赞');
+	                    				repliesItem.isup = true;
+	                    				break;
+	                    			}
+	                    		};
+	                    	};
+	                    	console.log(this.replies);
+                    	}
                     }
                 });
 			}
@@ -97,8 +117,34 @@
 			deletereply : function() {
 				// cnode暂时没有删除的api接口
 			},
-			upreply : function() {
-
+			upreply : function(index, replieId) {
+				const accesstoken = this.getUserInfo.accesstoken;
+				console.log(this.getUserInfo.id);
+				if(accesstoken === ''){
+					// 用户还没有登录，不能进行点赞功能
+					this.tipShow(true);
+					this.tipContent('您还未登录，不能进行点赞！');
+					return;
+				}
+				const rqdata = {
+					'accesstoken' : accesstoken
+				}
+				$.post('https://cnodejs.org/api/v1/reply/'+replieId+'/ups', rqdata, (data) => {
+					if(data.success){
+						console.log(data);
+						if(data.action === 'up'){
+							// 点赞
+							this.replies[index].ups.push('');
+							this.replies[index].isup = true;
+							console.log(this.replies[index]);
+						}else{
+							// 取消点赞
+							this.replies[index].ups.pop('');
+							this.replies[index].isup = false;
+							console.log(this.replies[index]);
+						}
+					}
+				})
 			}
 		},
 		components : {
@@ -108,6 +154,10 @@
 		},
 		store : store,
 		vuex : {
+			actions : {
+				tipShow : setTipShow,
+				tipContent : setTipContent
+			},
 			getters : {
 				userLoginState : getLoginState,
 				getUserInfo :  getUserInfo
@@ -185,6 +235,9 @@
 							border-radius : 2px;
 						}
 						.upbtn {
+							background : #A1AFC9;
+						}
+						.isupbtn {
 							background : #159F5C;
 						}
 						.deletebtn {
