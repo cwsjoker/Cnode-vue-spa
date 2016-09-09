@@ -1,6 +1,6 @@
 <template>
 	<div class="meun" :class="{'showMeun':showm}">
-		<div class="user_info" v-if="userLoginState">
+		<div class="user_info" v-if="userLoginState" v-link="{name:'userhome',params:{username:this.user_name}}">
 			<div class="avatar">
 				<img :src="user_avatar" alt="">
 			</div>

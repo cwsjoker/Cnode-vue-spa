@@ -19,7 +19,7 @@
 			<ul>
 				<li v-for="reitem in replies">
 					<div class="author_content clearfix">
-						<img :src="reitem.author.avatar_url" :alt="reitem.author.loginname">
+						<img :src="reitem.author.avatar_url" :alt="reitem.author.loginname" v-link="{name:'userhome',params:{username:reitem.author.loginname}}">
 						<span>{{reitem.author.loginname}}</span>
 						<span class="re-time">{{$index + 1}}楼{{reitem.create_at | getLastTime}}</span>
 						<div class="replyhandle">

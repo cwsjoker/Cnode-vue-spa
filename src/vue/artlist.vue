@@ -6,7 +6,7 @@
 		</ul>
 		<div class="artlistCon">
 			<div v-for="art in artlist" class="artitem clearfix" v-link="{name:'article',params:{id:art.id}}">
-				<a class="avatar" href="javascript:void(0);">
+				<a class="avatar" href="javascript:void(0);" v-link="{name:'userhome',params:{username:art.author.loginname}}">
 					<img :src="art.author.avatar_url" :alt="art.author.loginname">
 				</a>
 				<div class="art-inf">
@@ -146,6 +146,7 @@
 					top: 10px;
 					width: 2rem;
 					height: 2rem;
+					z-index: 5;
 					img {
 						display: inline-block;
 						width: 100%;

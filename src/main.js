@@ -85,7 +85,7 @@ router.map({
           require(['./vue/userset.vue'],resolve)
         }
     },
-    '/userhome':{
+    '/userhome/:username':{
         //个人主页
         name : 'userhome',
         component: function (resolve) {
