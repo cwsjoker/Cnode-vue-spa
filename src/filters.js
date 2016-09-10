@@ -1,3 +1,4 @@
+// 时间格式YYYY-MM-DD HH:mm:ss 转化为YYYY-MM-DD
 exports.getDateTime = (dataTime) => {
 	let time = dataTime;
 	let str = time.substring(0, 10);
@@ -46,8 +47,6 @@ exports.getArticleClass = (good, top) => {
 
 // 判断发帖时间与现在时间的间隔
 exports.getLastTime = (creatTime) => {
-	// let oldtime = creatTime.substring(0, 10);
-	// let newtime = new Date();
 	let oldtime = new Date(creatTime);
 	let newtime = (new Date() - oldtime)/1000;
 	let month = Math.floor(newtime/3600/24/30);
