@@ -35,9 +35,9 @@ module.exports = {
     filename: '[name].js',
     // 指向异步加载的路径
     // 博客异步加载地址
-    publicPath :  '/mystatic/CNode_Vue_Spa' + '/build/',
+    // publicPath :  '/mystatic/CNode_Vue_Spa' + '/build/',
     // 热替换异步加载地址
-    // publicPath :  '/build/',
+    publicPath :  '/build/',
     // 本地打开异步加载地址
     // publicPath :  __dirname + '/build/',
     // 非主文件的命名规则
