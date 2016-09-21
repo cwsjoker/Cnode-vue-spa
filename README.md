@@ -15,6 +15,11 @@ npm install
 2.设置webpack.config的publicPath : '/build/'</br>
 3.访问http://localhost:8080
 
+###技术栈###
+1.vue-router-路由切换，vue-resource-Ajax请求
+2.vuex引入保存用户信息，弹窗状态信息
+3.es6+vue.js开发
+4.webpack打包构建
 
 
 ###文件目录
