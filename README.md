@@ -16,9 +16,9 @@ npm install
 3.访问http://localhost:8080
 
 ###技术栈###
-1.vue-router-路由切换，vue-resource-Ajax请求
-2.vuex引入保存用户信息，弹窗状态信息
-3.es6+vue.js开发
+1.vue-router-路由切换，vue-resource-Ajax请求</br>
+2.vuex引入保存用户信息，弹窗状态信息</br>
+3.es6+vue.js开发</br>
 4.webpack打包构建
 
 
