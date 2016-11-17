@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "dev": "webpack-dev-server --hot --inline",
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",
