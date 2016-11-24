@@ -168,7 +168,7 @@
 <style lang="sass">
 	.article {
 		overflow: hidden;
-		margin: 45px 5px 0px;
+		margin: 3rem 5px 0px;
 		> div {
 			margin-top:10px;
 			background: #fff;
@@ -250,8 +250,8 @@
 				}
 				.repliescon {
 					margin-top: 10px;
-					line-height: 18px;
 					.repliescontent {
+						overflow: scroll;
 						background: #f0f0f0;
 						padding: 5px 2px;
 						border-radius: 5px;
@@ -262,12 +262,14 @@
 		.recommentbox {
 			width: 100%;
 			margin-bottom: 20px;
-			padding:10px;
+			padding-top: 0.3rem;
 			p {
 				width : 100%;
-				height : 25px;
+				height : 1rem;
+				margin-left: 5%;
 				color : #08c;
-				font-size : 15px;
+				font-size : 0.8rem;
+				line-height : 1rem;
 			}
 		}
 	}

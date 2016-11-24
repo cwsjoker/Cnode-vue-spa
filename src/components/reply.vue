@@ -1,6 +1,12 @@
 <template>
-	<textarea v-el:textarea v-model="repliescontent" placeholder="请输入留言"></textarea>
-	<span class="rebtn" @click="recomment">回复</span>
+	<div class="reply-box">
+		<div class="textinp">
+			<textarea v-el:textarea v-model="repliescontent" placeholder="请输入留言"></textarea>
+		</div>
+		<div class="textsub">
+			<span class="rebtn" @click="recomment">回复</span>
+		</div>
+	</div>
 </template>
 <script>
 	import {setTipShow, setTipContent} from '../vuex/actions';
@@ -84,20 +90,35 @@
 	}
 </script>
 <style lang="sass">
-	textarea {
-		width : 85%;
-		height : 80px;
-		padding : 10px;
-		outline : none;
-		resize : none;
-	}
-	.rebtn {
-		display : inline-block;
-		margin-top : 5px;
-		color : #fff;
-		padding : 5px 10px;
-		font-size : 15px;
-		border-radius: 3px;
-		background-color: #08c
+	.reply-box {
+		padding: 0.5rem 0;
+		.textinp {
+			position: relative;
+			margin-left: 5%;
+			height: 3.6rem;
+			textarea {
+				position: absolute;
+				left:0;
+				bottom: 0;
+				width : 85%;
+				height : 2.8rem;
+				padding : 0.2rem;
+				font-size : 0.8rem;
+				outline : none;
+				resize : none;
+			}
+		}
+		.textsub {
+			margin-left: 5%;
+			.rebtn {
+				display : inline-block;
+				margin : 5px 0 0 0;
+				color : #fff;
+				padding : 5px 10px;
+				font-size : 15px;
+				border-radius: 3px;
+				background-color: #08c
+			}
+		}
 	}
 </style>
