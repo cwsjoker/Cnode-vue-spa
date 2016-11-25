@@ -4,7 +4,7 @@
 	<div class="article">
 		<div class="articlebox">
 			<div class="articletitle">
-				<h2>{{art.title}}</h2>
+				<h2>{{art.title}}<span class="collection" :class="{'on-collection' : conllection.is}" @click="collect" >{{conllection.title}}</span></h2>
 				<div>
 					<span>发布于{{art.createtime | getLastTime}}</span>
 					<span>作者{{art.author_name}}</span>
@@ -60,6 +60,10 @@
 					'visit_count' : 0,
 					'reply_count' : 0
 				},
+				conllection : {
+					'is' : false,
+					'title' : '收藏'
+				},
 				replies : [],
 				articleId : '',
 				userid : this.getUserInfo.id || '',
@@ -71,6 +75,7 @@
 		route : {
 			data (transition){
 				this.articleId = transition.to.params.id;
+				// 获取文章详情
 				$.get('https://cnodejs.org/api/v1/topic/'+this.articleId,(d) => {
                     if(d && d.data){
                     	var D = d.data;
@@ -102,13 +107,61 @@
 	                    	console.log(this.replies);
                     	}
                     }
-                });
+                })
+				// 更改收藏状态
+				if(this.userLoginState) {
+					// 登录状态，判断是否收藏本文章
+					$.get('https://cnodejs.org/api/v1/topic_collect/' + this.username, (d) => {
+						if(d.success) {
+							for (const i of d.data) {
+								if (this.articleId === i.id) {
+									console.log('用户已收藏文章');
+									this.conllection.is = true;
+									this.conllection.title = '取消收藏';
+									break;
+								}
+								
+							}
+						}
+					})
+				} 
 			}
 		},
 		methods : {
+			// 收藏
+			collect : function() {
+				if(!this.userLoginState) {
+					// 未登陆不能进行主题收藏
+					this.tipShow(true);
+					this.tipContent('您还未登录，不能进行收藏！');
+					return;
+				}
+				const rqdata = {
+					'accesstoken' : this.accesstoken,
+					'topic_id' : this.articleId
+				}
+				if(this.conllection.is) {
+					// 已收藏，进行取消收藏操作
+					$.post('https://cnodejs.org/api/v1/topic_collect/de_collect', rqdata, (d) => {
+						if(d.success) {
+							this.conllection.is = false;
+							this.conllection.title = '收藏';
+						}
+					})
+				}else {
+					// 未收藏，进行收藏操作
+					$.post('https://cnodejs.org/api/v1/topic_collect/collect', rqdata, (d) => {
+						if(d.success) {
+							this.conllection.is = true;
+							this.conllection.title = '取消收藏';
+						}
+					})
+				}
+			},
+			// 是否能评论
 			replythis : function(id) {
 				if(!this.userLoginState){
-					// 未登陆，不能进行评论
+					// 未登陆，不能进行评论,直接去登录页面
 					this.$route.router.go({name : 'login'});
 					return;
 				}
@@ -117,10 +170,10 @@
 			deletereply : function() {
 				// cnode暂时没有删除的api接口
 			},
+			// 点赞
 			upreply : function(index, replieId) {
-				const accesstoken = this.getUserInfo.accesstoken;
-				console.log(this.getUserInfo.id);
-				if(accesstoken === ''){
+				const accesstoken = this.accesstoken;
+				if(!this.userLoginState){
 					// 用户还没有登录，不能进行点赞功能
 					this.tipShow(true);
 					this.tipContent('您还未登录，不能进行点赞！');
@@ -179,6 +232,19 @@
 			.articletitle {
 				h2 {
 					font-size: 20px;
+					span {
+						display : inline-block;
+						margin-left: 10px;
+						padding: 3px 5px;
+						background : #80bd01;
+						color : #000;
+						font-size : 12px;
+						border-radius: 2px;
+					}
+					.on-collection {
+						background : #909090;
+						color : #fff;
+					}
 				}
 				> div {
 					span {
