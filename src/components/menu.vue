@@ -12,7 +12,7 @@
 			<li v-link="{name:'home'}">首页</li>
 			<li v-link="{name : 'search'}">搜索</li>
 			<li v-link="{name : 'login'}" v-if="!userLoginState">登录</li>
-			<li v-if="userLoginState">未读消息</li>
+			<li v-link="{name : 'usermessage'}" v-if="userLoginState">未读消息<em v-if="ache_getNotMessageCount !== 0" class="message-count">{{ache_getNotMessageCount}}</em></li>
 			<li v-if="userLoginState">设置</li>
 			<li v-link="{name : 'about'}">关于</li>
 		</ul>
@@ -20,7 +20,7 @@
 </template>
 <script>
 	import store from '../vuex/store';
-	import {getLoginState, getUserInfo} from '../vuex/getters';
+	import {getLoginState, getUserInfo, getNotMessageCount} from '../vuex/getters';
 	export default {
 		props : ['showm'],
 		data : function() {
@@ -32,7 +32,8 @@
 		vuex : {
 			getters : {
 				userLoginState : getLoginState,
-				getUserInfo :  getUserInfo
+				getUserInfo :  getUserInfo,
+				ache_getNotMessageCount : getNotMessageCount
 			}
 		}
 	}
@@ -75,6 +76,7 @@
 		ul {
 			padding: 20px 0;
 			li {
+				position: relative;
 			    color: #fff;
 			    padding: 16px 0;
 			    text-align: left;
@@ -82,6 +84,20 @@
 			    line-height: 20px;
 			    font-size: 20px;
 			    margin: 0 25px;
+			    .message-count {
+			    	position: absolute;
+				    display: inline-block;
+				    top: 20px;
+				    left: 100px;
+				    width: 16px;
+				    height: 16px;
+				    background: #80bd01;
+				    border-radius: 8px;
+				    text-indent: 0px;
+				    text-align: center;
+				    font-size: 12px;
+				    line-height: 16px;
+			    }
 			}
 		}
 	}

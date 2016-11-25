@@ -16,7 +16,8 @@ const state = {
 		'accesstoken' : ''
 	},
 	tipContent : '',
-	tipShow : false
+	tipShow : false,
+	message_count : 0
 }
 
 const mutations = {
@@ -43,7 +44,12 @@ const mutations = {
 	// 设置tips弹窗的显示隐藏状态
 	SETTIPSHOW (state, status) {
 		state.tipShow = status;
+	},
+	// 设置未读消息条数
+	SETNOTMESSAGECOUNT (state, count) {
+		state.message_count = count;
 	}
+
 }
 
 export default new Vuex.Store({

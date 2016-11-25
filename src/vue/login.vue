@@ -14,8 +14,8 @@
 <script>
 	import store from '../vuex/store';
 	import nvHeader from '../components/header.vue';
-	import {isLogin, setUserInfo} from '../vuex/actions';
-	import {getLoginState, getUserInfo} from '../vuex/getters';
+	import {isLogin, setUserInfo, setNotMessageCount} from '../vuex/actions';
+	import {getLoginState, getUserInfo, getNotMessageCount} from '../vuex/getters';
 	export default {
 		data : function(){
 			return {
@@ -24,18 +24,25 @@
 		},
 		methods : {
 			login : function() {
-				let rqdata = {
+				const rqdata = {
 					'accesstoken' : this.strToken
 				}
 
 				$.post('https://cnodejs.org/api/v1/accesstoken', rqdata, (data) => {
 					if(data){
 						// 登入成功改变isLogin的状态为true
-						this.userLogin();
-						console.log(this.userLoginState);
-						this.setUserInfo(data.loginname, data.avatar_url, data.id, this.strToken)
-						console.log(JSON.stringify(this.getUserInfo));
-						window.history.back();
+						this.hand_userLogin();
+						this.hand_setUserInfo(data.loginname, data.avatar_url, data.id, this.strToken)
+						console.log(JSON.stringify(this.ache_getUserInfo));
+						if(this.ache_getUserInfo) {
+							// 获取消息
+							$.get('https://cnodejs.org/api/v1/message/count', rqdata, (d) => {
+								if(d.success) {
+									this.hand_setNotMessageCount(d.data);
+									window.history.back();
+								}
+							})
+						}
 					}else{
 						// 失败
 					}
@@ -48,12 +55,14 @@
 		store : store,
 		vuex : {
 			actions : {
-				userLogin : isLogin,
-				setUserInfo : setUserInfo
+				hand_userLogin : isLogin,
+				hand_setUserInfo : setUserInfo,
+				hand_setNotMessageCount : setNotMessageCount
 			},
 			getters : {
-				userLoginState : getLoginState,
-				getUserInfo :  getUserInfo
+				ache_userLoginState : getLoginState,
+				ache_getUserInfo :  getUserInfo,
+				ache_getNotMessageCount : getNotMessageCount
 			}
 		}
 	}

@@ -71,11 +71,11 @@ router.map({
           require(['./vue/login.vue'],resolve)
         }
     },
-    '/usermessge':{
+    '/usermessage':{
         //消息中心
-        name : 'usermessge',
+        name : 'usermessage',
         component: function (resolve) {
-          require(['./vue/usermessge.vue'],resolve)
+          require(['./vue/usermessage.vue'],resolve)
         }
     },
     '/userset':{

@@ -31,13 +31,13 @@
 					<div class="repliescon">
 						<div class="repliescontent" v-html="reitem.content"></div>
 					</div>
-					<re-ply :replycontent.sync="replies" :artid="articleId" :islogin="userLoginState" :replyid="reitem.id" :replythisid.sync="replythisid" :replyto="reitem.author.loginname" v-if="replythisid === reitem.id"></re-ply>
+					<re-ply :replycontent.sync="replies" :artid="articleId" :islogin="ache_userLoginState" :replyid="reitem.id" :replythisid.sync="replythisid" :replyto="reitem.author.loginname" v-if="replythisid === reitem.id"></re-ply>
 				</li>
 			</ul>
 		</div>
 		<div class="recommentbox">
 			<p>留下你的足迹:</p>
-			<re-ply :replycontent.sync="replies" :artid="articleId" :islogin="userLoginState" :replyid=""></re-ply>
+			<re-ply :replycontent.sync="replies" :artid="articleId" :islogin="ache_userLoginState" :replyid=""></re-ply>
 		</div>
 	</div>
 </template>
@@ -66,9 +66,9 @@
 				},
 				replies : [],
 				articleId : '',
-				userid : this.getUserInfo.id || '',
-				username : this.getUserInfo.loginname || '',
-				accesstoken : this.getUserInfo.accesstoken || '',
+				userid : this.ache_getUserInfo.id || '',
+				username : this.ache_getUserInfo.loginname || '',
+				accesstoken : this.ache_getUserInfo.accesstoken || '',
 				replythisid : ''
 			}
 		},
@@ -109,7 +109,7 @@
                     }
                 })
 				// 更改收藏状态
-				if(this.userLoginState) {
+				if(this.ache_userLoginState) {
 					// 登录状态，判断是否收藏本文章
 					$.get('https://cnodejs.org/api/v1/topic_collect/' + this.username, (d) => {
 						if(d.success) {
@@ -130,10 +130,10 @@
 		methods : {
 			// 收藏
 			collect : function() {
-				if(!this.userLoginState) {
+				if(!this.ache_userLoginState) {
 					// 未登陆不能进行主题收藏
-					this.tipShow(true);
-					this.tipContent('您还未登录，不能进行收藏！');
+					this.hand_tipShow(true);
+					this.hand_tipContent('您还未登录，不能进行收藏！');
 					return;
 				}
 				const rqdata = {
@@ -160,7 +160,7 @@
 			},
 			// 是否能评论
 			replythis : function(id) {
-				if(!this.userLoginState){
+				if(!this.ache_userLoginState){
 					// 未登陆，不能进行评论,直接去登录页面
 					this.$route.router.go({name : 'login'});
 					return;
@@ -173,10 +173,10 @@
 			// 点赞
 			upreply : function(index, replieId) {
 				const accesstoken = this.accesstoken;
-				if(!this.userLoginState){
+				if(!this.ache_userLoginState){
 					// 用户还没有登录，不能进行点赞功能
-					this.tipShow(true);
-					this.tipContent('您还未登录，不能进行点赞！');
+					this.hand_tipShow(true);
+					this.hand_tipContent('您还未登录，不能进行点赞！');
 					return;
 				}
 				const rqdata = {
@@ -208,12 +208,12 @@
 		store : store,
 		vuex : {
 			actions : {
-				tipShow : setTipShow,
-				tipContent : setTipContent
+				hand_tipShow : setTipShow,
+				hand_tipContent : setTipContent
 			},
 			getters : {
-				userLoginState : getLoginState,
-				getUserInfo :  getUserInfo
+				ache_userLoginState : getLoginState,
+				ache_getUserInfo :  getUserInfo
 			}
 		}
 	}

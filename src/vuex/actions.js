@@ -22,3 +22,9 @@ export const setTipContent = ({dispatch}, content) => {
 export const setTipShow = ({dispatch}, status) => {
 	dispatch('SETTIPSHOW', status);
 }
+/*
+ *设置未读消息的次数
+ */ 
+ export const setNotMessageCount = ({dispatch}, count) => {
+ 	dispatch('SETNOTMESSAGECOUNT', count);
+ }

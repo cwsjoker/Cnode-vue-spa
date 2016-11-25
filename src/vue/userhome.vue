@@ -131,7 +131,7 @@
 	.userhome {
 		overflow: hidden;
     	margin: 0 5px;
-    	padding: 4rem 0;
+    	padding: 4rem 0 2rem;
     	.userInfo {
 			.userInfoTitle {
     			border-radius: 7px 7px 0 0; 

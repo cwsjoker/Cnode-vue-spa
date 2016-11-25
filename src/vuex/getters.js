@@ -10,3 +10,6 @@ export const getTipShow = (state) => {
 export const getTipContent = (state) => {
 	return state.tipContent;
 }
+export const getNotMessageCount = (state) => {
+	return state.message_count;
+}
