@@ -10,6 +10,7 @@
 					<span>作者{{art.author_name}}</span>
 					<span>{{art.reply_count}}次回复</span>
 					<span>{{art.visit_count}}次浏览</span>
+					<span class="edit" v-if="ache_userLoginState && username === art.author_name" @click="editTopic">编辑</span>
 				</div>
 			</div>
 			<div class="articlecontent" v-html="art.content"></div>
@@ -23,7 +24,7 @@
 						<span>{{reitem.author.loginname}}</span>
 						<span class="re-time">{{$index + 1}}楼{{reitem.create_at | getLastTime}}</span>
 						<div class="replyhandle">
-							<em class="upbtn" :class="{'isupbtn' : reitem.isup}" @click="upreply($index, reitem.id)">赞{{reitem.ups.length}}</em>
+							<em class="upbtn" :class="{'isupbtn' : reitem.isup}" @click="upreply($index, reitem.id, reitem.author.loginname)">赞{{reitem.ups.length}}</em>
 							<em class="deletebtn" v-if="username === reitem.author.loginname" @click="deletereply">删</em>
 							<em class="replybtn" @click="replythis(reitem.id)">回</em>
 						</div>
@@ -158,6 +159,10 @@
 					})
 				}
 			},
+			// 编辑文章
+			editTopic : function() {
+				this.$route.router.go({name : 'edittopic',params:{id:this.articleId}});
+			},
 			// 是否能评论
 			replythis : function(id) {
 				if(!this.ache_userLoginState){
@@ -169,18 +174,26 @@
 			},
 			deletereply : function() {
 				// cnode暂时没有删除的api接口
+				this.hand_tipShow(true);
+				this.hand_tipContent('暂时不支持删除评论功能！');
+				return;
 			},
 			// 点赞
-			upreply : function(index, replieId) {
-				const accesstoken = this.accesstoken;
+			upreply : function(index, replieId, loginname) {
 				if(!this.ache_userLoginState){
 					// 用户还没有登录，不能进行点赞功能
 					this.hand_tipShow(true);
 					this.hand_tipContent('您还未登录，不能进行点赞！');
 					return;
 				}
+				if(loginname === this.username) {
+					// 不能为自己的评论进行点赞功能
+					this.hand_tipShow(true);
+					this.hand_tipContent('不能为自己点赞！');
+					return;
+				}
 				const rqdata = {
-					'accesstoken' : accesstoken
+					'accesstoken' : this.accesstoken
 				}
 				$.post('https://cnodejs.org/api/v1/reply/'+replieId+'/ups', rqdata, (data) => {
 					if(data.success){
@@ -252,6 +265,14 @@
 						margin-right:10px;
 						font-size: 12px;
     					color: #838383;
+					}
+					.edit {
+						width: 40px;
+						padding: 3px 5px;
+						background : #80bd01;
+						color : #000;
+						font-size : 12px;
+						border-radius: 2px;
 					}
 				}
 			}

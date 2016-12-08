@@ -24,8 +24,8 @@
 4.webpack打包构建
 
 ##项目进度##
-已实现：主题列表页，主题详情页，主题的收藏与取消，用户登录，评论功能，点赞，个人主页查看, 消息模块</br>
-待实现：搜索（未有接口），个人设置, 发布文章
+已实现：主题列表页，主题详情页(收藏，点赞，评论)，用户登录，个人主页, 消息模块，创建主题与修改主题</br>
+待实现：搜索（未有接口），个人设置
 
 ##文件目录
 <pre>
@@ -41,12 +41,18 @@
 │   |    ├──login.vue
 │   |    ├──loading.vue
 │   |    ├──search.vue
+│   |    ├──userhome.vue
+│   |    ├──usermessage.vue
+│   |    ├──userset.vue
+│   |    ├──createtopic.vue
+│   |    ├──edittopic.vue
 │   ├── components     // 各种子组件
 │   |    ├──header.vue
 │   |    ├──returnTop.vue
 │   |    ├──menu.vue
 │   |    ├──reply.vue
 │   |    ├──tips.vue
+│   |    ├──topicbox.vue
 │   ├── vuex     // vuex
 │   |    ├──action.js
 │   |    ├──getters.js

@@ -14,6 +14,7 @@
 			<li v-link="{name : 'login'}" v-if="!userLoginState">登录</li>
 			<li v-link="{name : 'usermessage'}" v-if="userLoginState">未读消息<em v-if="ache_getNotMessageCount !== 0" class="message-count">{{ache_getNotMessageCount}}</em></li>
 			<li v-if="userLoginState">设置</li>
+			<li v-link="{name : 'createtopic'}" v-if="userLoginState">发布话题</li>
 			<li v-link="{name : 'about'}">关于</li>
 		</ul>
 	</div>

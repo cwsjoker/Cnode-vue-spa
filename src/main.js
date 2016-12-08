@@ -92,6 +92,20 @@ router.map({
           require(['./vue/userhome.vue'],resolve)
         }
     },
+    '/createtopic':{
+        // 发布话题
+        name : 'createtopic',
+        component: function(resolve) {
+            require(['./vue/createtopic.vue'],resolve)
+        }
+    },
+    '/edittopic/:id':{
+        // 修改话题
+        name : 'edittopic',
+        component: function(resolve) {
+            require(['./vue/edittopic.vue'],resolve)
+        }
+    },
     '/about':{
         //关于我们
         name : 'about',
