@@ -1,6 +1,6 @@
 <template>
 	<nv-header></nv-header>
-	<topic-box :accesstoken="accesstoken" :tid="id"></topic-box>
+	<topic-box :accesstoken="accesstoken" :topic-id="topicId"></topic-box>
 </template>
 <script>
 	import nvHeader from '../components/header.vue';
@@ -11,7 +11,7 @@
 		data : function() {
 			return {
 				accesstoken : this.ache_getUserInfo.accesstoken,
-				id : ''
+				topicId : ''
 			}
 		},
 		route : {
@@ -21,8 +21,7 @@
 					this.$route.router.go({name : 'login'});
 					return;
 				}
-				this.id = transition.to.params.id;
-				console.log(this.id);
+				this.topicId = transition.to.params.id;
 			}
 		},
 		components : {

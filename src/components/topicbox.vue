@@ -24,7 +24,7 @@
 	import {setTipShow, setTipContent} from '../vuex/actions';
 	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
-		props : ['accesstoken' , 'tid'],
+		props : ['accesstoken', 'topicId'],
 		data : function() {
 			return {
 				topicType : 'share',
@@ -33,12 +33,12 @@
 			}
 		},
 		watch : {
-			tid : function() {
+			topicId : function() {
 				// 修改主题
 				const rqdata = {
 					mdrender : false
 				}
-				$.get('https://cnodejs.org/api/v1/topic/'+this.tid, rqdata, (data) => {
+				$.get('https://cnodejs.org/api/v1/topic/'+this.topicId, rqdata, (data) => {
 					if(data.success) {
 						this.topicType = data.data.tab;
 						this.topicTitle = data.data.title;
@@ -58,7 +58,7 @@
 				}
 				let url = '',
 					rqdata = '';
-				if(this.tid) {
+				if(this.topicId) {
 					// 修改
 					url = 'https://cnodejs.org/api/v1/topics/update';
 					rqdata = {
@@ -66,7 +66,7 @@
 						'title' : title,
 						'tab' : this.topicType,
 						'content' : content,
-						'topic_id' : this.tid
+						'topic_id' : this.topicId
 					};
 				}else{
 					// 创建
@@ -75,8 +75,7 @@
 						'accesstoken' : this.accesstoken,
 						'title' : title,
 						'tab' : this.topicType,
-						'content' : content,
-						'topic_id' : this.tid
+						'content' : content
 					};
 				}
 				$.post(url, rqdata, (data) => {
@@ -127,15 +126,15 @@
     			font-size: 0.8rem;
     		}
     		.submit {
-    			display:inline-block;
-    			width: 10%;
-    			height: 1.5rem;
-    			background-color: #0088CC;
-    			color: #fff;
-    			font-size: 0.8rem;
-    			text-align: center;
-    			line-height: 1.5rem;
-    		}
+				display:inline-block;
+				width: 10%;
+				height: 1.5rem;
+				background-color: #0088CC;
+				color: #fff;
+				font-size: 0.8rem;
+				text-align: center;
+				line-height: 1.5rem;
+			}
     	}
 	}
 </style>
