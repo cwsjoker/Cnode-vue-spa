@@ -4,6 +4,9 @@ var WebpackDevServer = require('webpack-dev-server');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var vue = require("vue-loader");
 
+// 配置异步加载地址
+var project_publicPath = process.env.NODE_ENV === 'production' ? __dirname + '/build/' : '/build/';
+
 //定义了一些文件夹的路径
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'src/main.js');
@@ -36,10 +39,8 @@ module.exports = {
     // 指向异步加载的路径
     // 博客异步加载地址
     // publicPath :  '/mystatic/CNode_Vue_Spa' + '/build/',
-    // 热替换异步加载地址
-    publicPath :  '/build/',
-    // 本地打开异步加载地址
-    // publicPath :  __dirname + '/build/',
+    // 异步加载地址
+    publicPath : project_publicPath,
     // 非主文件的命名规则
     chunkFilename: '[id].build.js?[chunkhash]'
   },

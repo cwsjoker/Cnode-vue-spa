@@ -7,15 +7,13 @@
 
 ##Usage##
 
-第一种本地打开</br>
-1.设置webpack.config的publicPath : __dirname + '/build/'</br>
-2.运行npm run build打包</br>
-3.直接本地打开index.html访问
+生产环境</br>
+1.运行npm run build打包</br>
+2.直接本地打开index.html访问
 
-第二种服务器打开</br>
-1.设置webpack.config的publicPath : '/build/'</br>
-2.运行npm run dev热替换模式，代理到本地的http://localhost:8080端口</br>
-3.访问http://localhost:8080
+开发环境</br>
+1.运行npm run dev热替换模式，代理到本地的http://localhost:8080端口</br>
+2.访问http://localhost:8080
 
 ##技术栈##
 1.vue-router-路由切换，vue-resource-Ajax请求</br>
@@ -25,7 +23,7 @@
 
 ##项目进度##
 已实现：主题列表页，主题详情页(收藏，点赞，评论)，用户登录，个人主页, 消息模块，创建主题与修改主题</br>
-待实现：搜索（未有接口），个人设置
+待实现：1.0版本已重写完成，2.0正在重构中(将对整体架构作出改变，不单单是简单的完成对1.0的升级，敬请期待)。
 
 ##文件目录
 <pre>
