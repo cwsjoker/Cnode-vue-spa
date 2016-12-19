@@ -1,5 +1,5 @@
 #webpack+vue.js重构的cnode社区的单页面(spa)应用
-###[线上预览地址](https://cwsjoker.github.io/mystatic/CNode_Vue_Spa/index.html)
+###[1.0线上预览地址](https://cwsjoker.github.io/mystatic/CNode_Vue_Spa/index.html)
 
 ##Installation##
 安装第三方npm模块依赖</br>
