@@ -1,19 +1,16 @@
-$(function(){
-	$(window).resize(infinite);
+(function() {
+	window.onresize = infinite;
+	var html = document.documentElement;
 	function infinite() {
-		var htmlWidth = $('html').width();
+		var htmlWidth = html.clientWidth;
 		if (htmlWidth <= 320) {
-			$("html").css({
-				"font-size" : "12px"
-			});
-		}else if(htmlWidth >= 720) {
-			$("html").css({
-				"font-size" : "28.8px"
-			});
+			html.style.fontSize = 12 + 'px';
+		} else if(htmlWidth >= 720) {
+			html.style.fontSize = 28.8 + 'px';
 		} else {
-			$("html").css({
-				"font-size" :  28.8 / 720 * htmlWidth + "px"
-			});
+			html.style.fontSize = 28.8 / 720 * htmlWidth + "px";
 		}
-	}infinite();
-});
+	}
+	infinite();
+})();
+
