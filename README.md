@@ -16,14 +16,14 @@
 2.访问http://localhost:8080
 
 ##技术栈##
-1.vue-router-路由切换，vue-resource-Ajax请求</br>
-2.vuex引入保存用户信息，弹窗状态信息</br>
-3.es6+vue.js开发</br>
+1.vue-router-路由切换，axios-Ajax请求</br>
+2.vuex+localStorage引入保存用户信息，弹窗状态信息</br>
+3.es6+vue2.0.js开发</br>
 4.webpack打包构建
 
 ##项目进度##
-已实现：主题列表页，主题详情页(收藏，点赞，评论)，用户登录，个人主页, 消息模块，创建主题与修改主题</br>
-待实现：1.0版本已重写完成，2.0正在重构中(将对整体架构作出改变，不单单是简单的完成对1.0的升级，敬请期待)
+2.0已实现全部功能有：
+主题列表页，主题详情页(收藏，点赞，评论)，用户登录，个人主页, 消息模块，创建主题与修改主题
 
 ##文件目录
 <pre>
@@ -33,35 +33,30 @@
 ├── package.json       // 项目配置文件
 ├── src                // 生产目录
 │   ├── vue            // 组件
+│   |    ├──home.vue
 │   |    ├──about.vue
-│   |    ├──artlist.vue
+│   |    ├──articleList.vue
 │   |    ├──article.vue
 │   |    ├──login.vue
-│   |    ├──loading.vue
-│   |    ├──search.vue
 │   |    ├──userhome.vue
 │   |    ├──usermessage.vue
-│   |    ├──userset.vue
 │   |    ├──createtopic.vue
 │   |    ├──edittopic.vue
-│   ├── components     // 各种子组件
+│   ├── components      // 子组件
 │   |    ├──header.vue
 │   |    ├──returnTop.vue
 │   |    ├──menu.vue
 │   |    ├──reply.vue
 │   |    ├──tips.vue
 │   |    ├──topicbox.vue
-│   ├── vuex     // vuex
-│   |    ├──action.js
-│   |    ├──getters.js
-│   |    ├──store.js
+│   ├── store          // vuex
+│   |    ├──index.js
+│   ├── filters        // 过滤器
+│   |    ├──index.js
 │   ├── js             // 外部引入的js文件
-│   ├── scss           //scss文件
-│   ├── img           //图片文件
-│   ├── filters.js     //过滤器
+│   ├── css            //css文件
+│   ├── img            //图片文件
 │   └── main.js        // Webpack 预编译入口	
 └── webpack.js  	   // Webpack 配置文件
 </pre>
 
-##效果预览
-![image](https://github.com/cwsjoker/Cnode-vue-spa/blob/master/src/img/demo.gif)

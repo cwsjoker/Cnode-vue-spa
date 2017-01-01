@@ -1,30 +1,31 @@
 <template>
-	<tips></tips>
-	<div class="createtopic-box">
-		<div class="createtopic-item">
-			<select v-model="topicType">
-				<option value="share">分享</option>
-				<option value="ask">问答</option>
-				<option value="jpb">招聘</option>
-			</select>
-		</div>
-		<div class="createtopic-item">
-			<input v-model="topicTitle" type="text" placeholder="在此输入话题标题">
-		</div>
-		<div class="createtopic-item">
-			<textarea v-model="topicContainer" placeholder="在此输入话题内容"></textarea>
-			<div>
-				<span class="submit" @click="submitTopic">提交</span>
+	<div>
+		<tips></tips>
+		<div class="createtopic-box">
+			<div class="createtopic-item">
+				<select v-model="topicType">
+					<option value="share">分享</option>
+					<option value="ask">问答</option>
+					<option value="jpb">招聘</option>
+				</select>
+			</div>
+			<div class="createtopic-item">
+				<input v-model="topicTitle" type="text" placeholder="在此输入话题标题">
+			</div>
+			<div class="createtopic-item">
+				<textarea v-model="topicContainer" placeholder="在此输入话题内容"></textarea>
+				<div>
+					<span class="submit" @click="submitTopic">提交</span>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
+	import axios from 'axios';
 	import tips from '../components/tips.vue';
-	import {setTipShow, setTipContent} from '../vuex/actions';
-	import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
-		props : ['accesstoken', 'topicId'],
+		props : ['topicId'],
 		data : function() {
 			return {
 				topicType : 'share',
@@ -32,71 +33,79 @@
 				topicContainer : ''
 			}
 		},
-		watch : {
-			topicId : function() {
+		mounted : function() {
+			if (this.topicId) {
 				// 修改主题
 				const rqdata = {
 					mdrender : false
 				}
-				$.get('https://cnodejs.org/api/v1/topic/'+this.topicId, rqdata, (data) => {
-					if(data.success) {
+				axios.get('https://cnodejs.org/api/v1/topic/'+this.topicId, {
+					params : rqdata
+				})
+				.then((response) => {
+					const data = response.data;
+					if (data.success) {
 						this.topicType = data.data.tab;
 						this.topicTitle = data.data.title;
 						this.topicContainer = data.data.content;
 					}
 				})
+				.catch(function(error) {
+					console.log(error);
+				})
 			}
 		},
 		methods : {
 			submitTopic : function() {
-				const title = this.topicTitle.trim(),
-					  content = this.topicContainer.trim();
-				if(title.length <= 10 || content === '') {
-					this.hand_tipShow(true);
-					this.hand_tipContent('标题字少10个字以上或内容不能为空。');
-					return;
-				}
-				let url = '',
-					rqdata = '';
-				if(this.topicId) {
-					// 修改
-					url = 'https://cnodejs.org/api/v1/topics/update';
-					rqdata = {
-						'accesstoken' : this.accesstoken,
+				if (this.LoginState) {
+					const title = this.topicTitle.trim(),
+						  content = this.topicContainer.trim();
+					if (title.length <= 10 || content === '') {
+						this.$store.dispatch('setTipShow', true);
+						this.$store.dispatch('setTipContent','标题字少10个字以上或内容不能为空。');
+						return;
+					}
+					let url = '';
+					if (this.topicId) {
+						// 修改
+						url = 'https://cnodejs.org/api/v1/topics/update';
+					} else {
+						// 创建
+						url = 'https://cnodejs.org/api/v1/topics';
+					}
+					axios.post(url, {
+						'accesstoken' : this.userInfo.accesstoken,
 						'title' : title,
 						'tab' : this.topicType,
 						'content' : content,
 						'topic_id' : this.topicId
-					};
-				}else{
-					// 创建
-					url = 'https://cnodejs.org/api/v1/topics';
-					rqdata = {
-						'accesstoken' : this.accesstoken,
-						'title' : title,
-						'tab' : this.topicType,
-						'content' : content
-					};
+					})
+					.then((response) => {
+						const data = response.data;
+						if(data.success) {
+							this.$router.push({name : 'article',params:{id:data.topic_id}});
+						}
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+				} else {
+					this.$router.push({name : 'login'});
 				}
-				$.post(url, rqdata, (data) => {
-					if(data.success) {
-						this.$route.router.go({name : 'article',params:{id:data.topic_id}});
-					}
-				})
+			}
+		},
+		computed : {
+			// 登陆状态
+			LoginState() {
+				return this.$store.getters.getLoginState;
+			},
+			// 登陆用户信息
+			userInfo() {
+				return this.$store.getters.getUserInfo;
 			}
 		},
 		components : {
-			'tips' : tips
-		},
-		vuex : {
-			actions : {
-				hand_tipShow : setTipShow,
-				hand_tipContent : setTipContent
-			},
-			getters : {
-				ache_userLoginState : getLoginState,
-				ache_getUserInfo :  getUserInfo
-			}
+			tips
 		}
 	}
 </script>

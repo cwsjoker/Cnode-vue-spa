@@ -1,40 +1,32 @@
 <template>
-	<nv-header></nv-header>
-	<div class="about">
-		<img src="../img/old.jpg" alt="">
-		<h2>cwsjoker</h2>
-		<p>
-			<a href="https://github.com/cwsjoker">github</a>
-		</p>
-		<p>
-			<a href="https://segmentfault.com/u/cwsjoker/articles">segmentdefault</a>
-		</p>
-		<p>
-			<a href="https://github.com/cwsjoker/Cnode-vue-spa">项目源码地址欢迎star</a>
-		</p>
+	<div>
+		<nv-header></nv-header>
+		<div class="about">
+			<img src="../img/old.jpg" alt="">
+			<h2>cwsjoker</h2>
+			<p>
+				<a href="https://github.com/cwsjoker">github</a>
+			</p>
+			<p>
+				<a href="https://segmentfault.com/u/cwsjoker/articles">segmentdefault</a>
+			</p>
+			<p>
+				<a href="https://github.com/cwsjoker/Cnode-vue-spa">项目源码地址欢迎star</a>
+			</p>
+		</div>
 	</div>
 </template>
 <script>
-	import store from '../vuex/store';
 	import nvHeader from '../components/header.vue';
 	export default {
-		ready : function(){
-
-		},
 		components : {
-			'nv-header' : nvHeader
-		},
-		store : store
+			nvHeader
+		}
 	}
 </script>
 <style lang="sass">
 	.about {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		right: 0px;
-		bottom: 0px;
-		margin: auto;
+		margin-top: 200px ;
 		width: 100%;
 		height: 200px;
 		img {

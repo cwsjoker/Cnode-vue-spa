@@ -8,20 +8,24 @@
 				showTop : false
 			}
 		},
-		ready : function() {
-			$(window).on('scroll', () => {
-				if($(window).scrollTop() > 150){
-					this.showTop = true;
-				}else{
-					this.showTop = false;
-				}	
-			})
+		mounted : function() {
+			window.addEventListener('scroll', this.scrollEvent, false);
 		},
 		methods : {
 			returnTop : function() {
-				$(window).scrollTop(0);
+				window.scroll(0, 0);
 				this.showTop = false;
+			},
+			scrollEvent : function () {
+				if (parseFloat(window.scrollY) > 150) {
+					this.showTop = true;
+				} else {
+					this.showTop = false;
+				}
 			}
+		},
+		beforeDestroy : function() {
+			window.removeEventListener('scroll', this.scrollEvent, false);
 		}
 	}
 </script>

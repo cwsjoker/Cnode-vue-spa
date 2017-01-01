@@ -1,40 +1,68 @@
 <template>
 	<div class="meun" :class="{'showMeun':showm}">
-		<div class="user_info" v-if="userLoginState" v-link="{name:'userhome',params:{username:this.user_name}}">
+		<div class="user_info" v-if="loginStatus" @click="gotoUserhome">
 			<div class="avatar">
-				<img :src="user_avatar" alt="">
+				<img :src="userInfo.avatar" alt="">
 			</div>
 			<div class="name">
-				<p v-text="user_name"></p>
+				<p v-text="userInfo.loginname"></p>
 			</div>
 		</div>
-		<ul>
-			<li v-link="{name:'home'}">首页</li>
-			<li v-link="{name : 'search'}">搜索</li>
-			<li v-link="{name : 'login'}" v-if="!userLoginState">登录</li>
-			<li v-link="{name : 'usermessage'}" v-if="userLoginState">未读消息<em v-if="ache_getNotMessageCount !== 0" class="message-count">{{ache_getNotMessageCount}}</em></li>
-			<li v-if="userLoginState">设置</li>
-			<li v-link="{name : 'createtopic'}" v-if="userLoginState">发布话题</li>
-			<li v-link="{name : 'about'}">关于</li>
-		</ul>
+		<div class="meun-list">
+			<router-link class="item" to="/">首页</router-link>
+			<router-link class="item" to="/login" v-if="!loginStatus">登录</router-link>
+			<router-link class="item" to="/usermessage" v-if="loginStatus">未读消息<em v-if="messageCount !== 0" class="message-count">{{messageCount}}</em></router-link>
+			<router-link class="item" to="/createtopic" v-if="loginStatus">发布话题</router-link>
+			<router-link class="item" to="/about">关于</router-link>
+			<a href="javascript:void(null);" class="item" v-if="loginStatus" @click="signOut">退出</a>
+		</div>
 	</div>
 </template>
 <script>
-	import store from '../vuex/store';
-	import {getLoginState, getUserInfo, getNotMessageCount} from '../vuex/getters';
 	export default {
 		props : ['showm'],
-		data : function() {
-			return {
-				user_name : this.getUserInfo.loginname || '',
-				user_avatar : this.getUserInfo.avatar || ''
+		mounted : function() {
+			if (localStorage.cnode_accesstoken) {
+				// 存在本地游accesstoken记录，自动登录
+				const userInfo = {
+					'name' : localStorage.cnode_name,
+					'avatar' : localStorage.cnode_avatar,
+					'id' : localStorage.cnode_id,
+					'accesstoken' : localStorage.cnode_accesstoken
+				}
+				this.$store.dispatch('isLogin');
+				this.$store.dispatch('setUserInfo', userInfo);
 			}
 		},
-		vuex : {
-			getters : {
-				userLoginState : getLoginState,
-				getUserInfo :  getUserInfo,
-				ache_getNotMessageCount : getNotMessageCount
+		computed : {
+			loginStatus() {
+				return this.$store.getters.getLoginState;
+			},
+			messageCount() {
+				return this.$store.getters.getNotMessageCount;
+			},
+			userInfo() {
+				return this.$store.getters.getUserInfo;
+			}
+		},
+		methods : {
+			gotoUserhome : function() {
+				this.$router.push({ name: 'userhome', params: { username: this.userInfo.loginname }});
+			},
+			signOut : function() {
+				// 退出登录清除localStorage以及设置vuex的登录状态和用户信息
+				localStorage.removeItem('cnode_name');
+				localStorage.removeItem('cnode_avatar');
+				localStorage.removeItem('cnode_id');
+				localStorage.removeItem('cnode_accesstoken');
+				const userInfo = {
+					'name' : '',
+					'avatar' : '',
+					'id' : '',
+					'accesstoken' : ''
+				}
+				this.$store.dispatch('signOut');
+				this.$store.dispatch('setUserInfo', userInfo);
 			}
 		}
 	}
@@ -74,10 +102,11 @@
 				}
 			}
 		}
-		ul {
+		.meun-list {
 			padding: 20px 0;
-			li {
+			.item {
 				position: relative;
+				display: inline-block;
 			    color: #fff;
 			    padding: 16px 0;
 			    text-align: left;

@@ -1,39 +1,33 @@
 <template>
-	<nv-header></nv-header>
-	<topic-box :accesstoken="accesstoken" :topic-id="topicId"></topic-box>
+	<div>
+		<nv-header></nv-header>
+		<topic-box :topicId="topicid"></topic-box>
+	</div>
 </template>
 <script>
 	import nvHeader from '../components/header.vue';
-	import topicbox from '../components/topicbox.vue';
-	import store from '../vuex/store';
-	import {getLoginState, getUserInfo} from '../vuex/getters';
+	import topicBox from '../components/topicbox.vue';
 	export default {
-		data : function() {
-			return {
-				accesstoken : this.ache_getUserInfo.accesstoken,
-				topicId : ''
+		mounted : function() {
+			if (!this.LoginState) {
+				// 未登陆，跳转登陆页
+				this.$router.push({name : 'login'});
+				return;
 			}
 		},
-		route : {
-			data (transition) {
-				if(!this.ache_userLoginState) {
-					// 未登陆，跳转登陆页
-					this.$route.router.go({name : 'login'});
-					return;
-				}
-				this.topicId = transition.to.params.id;
+		computed : {
+			// 登陆状态
+			LoginState() {
+				return this.$store.getters.getLoginState;
+			},
+			// 获取主题id
+			topicid() {
+				return this.$route.params.topicid;
 			}
 		},
 		components : {
-			'nv-header' : nvHeader,
-			'topic-box' : topicbox
-		},
-		store : store,
-		vuex : {
-			getters : {
-				ache_userLoginState : getLoginState,
-				ache_getUserInfo :  getUserInfo
-			}
+			nvHeader,
+			topicBox
 		}
 	}
 </script>

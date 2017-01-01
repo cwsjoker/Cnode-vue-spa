@@ -20,12 +20,9 @@ var plugins = [
 	//将样式统一发布到style.css中
   new ExtractTextPlugin("style.css", {
     allChunks: true
-  }),
-  // 使用 ProvidePlugin 加载使用率高的依赖库
-  new webpack.ProvidePlugin({
-    $: 'webpack-zepto'
   })
 ];
+
 
 module.exports = {
   //项目的文件夹 可以直接用文件夹名称 默认会找index.js 也可以确定是哪个文件名字
@@ -76,6 +73,11 @@ module.exports = {
   babel: {
     // 告诉babel你要解析的语言
     presets: ['es2015']
+  },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.js'
+    }
   },
   devServer: {
     historyApiFallback: true,

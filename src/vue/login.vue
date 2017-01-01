@@ -1,21 +1,23 @@
 <template>
-	<nv-header></nv-header>
-	<div class="login-con">
-		<h2>登录</h2>
-		<div>
-			<p>Token:</p>
-			<p><input type="text" v-model="strToken" /></p>
-		</div>
-		<div>
-			<span @click="login">登录</span>
+	<div>
+		<nv-header></nv-header>
+		<tips></tips>
+		<div class="login-con">
+			<h2>登录</h2>
+			<div>
+				<p>Token:</p>
+				<p><input type="text" v-model="strToken" /></p>
+			</div>
+			<div>
+				<span @click="login">登录</span>
+			</div>
 		</div>
 	</div>
 </template>
 <script>
-	import store from '../vuex/store';
+	import axios from 'axios';
 	import nvHeader from '../components/header.vue';
-	import {isLogin, setUserInfo, setNotMessageCount} from '../vuex/actions';
-	import {getLoginState, getUserInfo, getNotMessageCount} from '../vuex/getters';
+	import tips from '../components/tips.vue';
 	export default {
 		data : function(){
 			return {
@@ -24,46 +26,57 @@
 		},
 		methods : {
 			login : function() {
-				const rqdata = {
-					'accesstoken' : this.strToken
+				if (this.strToken.trim() === '') {
+					this.$store.dispatch('setTipShow', true);
+					this.$store.dispatch('setTipContent', 'accessToken不能为空！');
+					return;
 				}
-
-				$.post('https://cnodejs.org/api/v1/accesstoken', rqdata, (data) => {
-					if(data){
+				const rqdata = {
+					'accesstoken' : this.strToken.trim()
+				}
+				axios.post('https://cnodejs.org/api/v1/accesstoken?accesstoken='+ this.strToken)
+				.then((response_info) => {
+					if (response_info.data.success) {
+						const data = response_info.data;
 						// 登入成功改变isLogin的状态为true
-						this.hand_userLogin();
-						this.hand_setUserInfo(data.loginname, data.avatar_url, data.id, this.strToken)
-						console.log(JSON.stringify(this.ache_getUserInfo));
-						if(this.ache_getUserInfo) {
-							// 获取消息
-							$.get('https://cnodejs.org/api/v1/message/count', rqdata, (d) => {
-								if(d.success) {
-									this.hand_setNotMessageCount(d.data);
-									window.history.back();
-								}
-							})
+						this.$store.dispatch('isLogin');
+						const userInfo = {
+							'name' : data.loginname,
+							'avatar' : data.avatar_url,
+							'id' : data.id,
+							'accesstoken' : this.strToken.trim()
 						}
+						this.$store.dispatch('setUserInfo', userInfo);
+						// 登录成功记录账户信息存放至localStorage已备下次自动登录
+						localStorage.setItem("cnode_accesstoken", userInfo.accesstoken);
+						localStorage.setItem("cnode_avatar", userInfo.avatar);
+						localStorage.setItem("cnode_id", userInfo.id);
+						localStorage.setItem("cnode_name", userInfo.name);
+						// 获取未读消息，并设置vuex
+						axios.get('https://cnodejs.org/api/v1/message/count?accesstoken='+ this.strToken.trim())
+						.then((response_count) => {
+							if (response_count.data.success) {
+								this.$store.dispatch('setNotMessageCount', response_count.data.data);
+								window.history.back();
+							}
+						})
+						.catch(function(error) {
+							console.log(error);
+						});
 					}else{
 						// 失败
 					}
 				})
+				.catch((error) => {
+					console.log(error);
+					this.$store.dispatch('setTipShow', true);
+					this.$store.dispatch('setTipContent', '错误的accessToken!');
+				})		
 			}
 		},
 		components : {
-			'nv-header' : nvHeader
-		},
-		store : store,
-		vuex : {
-			actions : {
-				hand_userLogin : isLogin,
-				hand_setUserInfo : setUserInfo,
-				hand_setNotMessageCount : setNotMessageCount
-			},
-			getters : {
-				ache_userLoginState : getLoginState,
-				ache_getUserInfo :  getUserInfo,
-				ache_getNotMessageCount : getNotMessageCount
-			}
+			nvHeader,
+			tips
 		}
 	}
 </script>

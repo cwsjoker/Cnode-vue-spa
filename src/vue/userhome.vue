@@ -1,85 +1,92 @@
 <template>
-	<nv-header></nv-header>
-	<div class="userhome">
-		<!-- 头像，个人基本信息 -->
-		<div class="userInfo">
-			<div class="userInfoTitle">个人信息</div>
-			<div class="userInfoBox">
-				<div class="useravatar">
-					<img :src="user_avatar">
-				</div>
-				<div class="userbase">
-					<p class="name">{{user_name}}</p>
-					<div class="baseinfo">
-						<span class="jifen">积分：{{score}}</span>
-						<span class="lasttime">注册时间：{{create_at | getDateTime}}</span>
+	<div>
+		<nv-header></nv-header>
+		<div class="userhome">
+			<!-- 头像，个人基本信息 -->
+			<div class="userInfo">
+				<div class="userInfoTitle">个人信息</div>
+				<div class="userInfoBox">
+					<div class="useravatar">
+						<img :src="user_avatar">
+					</div>
+					<div class="userbase">
+						<p class="name">{{user_name}}</p>
+						<div class="baseinfo">
+							<span class="jifen">积分：{{score}}</span>
+							<span class="lasttime">注册时间：{{create_at | getDateTime}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 创建主题 -->
-		<div class="userTopics">
-			<div class="userTopicsTitle">创建主题</div>
-			<div class="userTopicsBox">
-				<div v-for="topic in recent_topics" class="topicsitem clearfix" v-link="{name:'article',params:{id:topic.id}}">
-					<a class="avatar" href="javascript:void(0);" v-link="{name:'userhome',params:{username:topic.author.loginname}}">
-						<img :src="topic.author.avatar_url" :alt="topic.author.loginname">
-					</a>
-					<div class="art-inf">
-						<a class="title">{{topic.title}}</a>
-						<span class="last-time">{{topic.last_reply_at | getLastTime }}</span>
+			<!-- 创建主题 -->
+			<div class="userTopics">
+				<div class="userTopicsTitle">创建主题</div>
+				<div class="userTopicsBox">
+					<div v-for="topic in recent_topics" class="topicsitem clearfix">
+						<router-link :to="{name:'article',params:{id:topic.id}}">
+							<a class="avatar" href="javascript:void(0);">
+								<img :src="topic.author.avatar_url" :alt="topic.author.loginname">
+							</a>
+							<div class="art-inf">
+								<a class="title">{{topic.title}}</a>
+								<span class="last-time">{{topic.last_reply_at | getLastTime }}</span>
+							</div>
+						</router-link>
 					</div>
-				</div>
-				<div class="nodata" v-if="topicsShow">
-					<div class="nodataimg"></div>
-					还没有创建主题
+					<div class="nodata" v-if="topicsShow">
+						<div class="nodataimg"></div>
+						还没有创建主题
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 参与的主题 -->
-		<div class="userReplies">
-			<div class="userRepliesTitle">参与主题</div>
-			<div class="userRepliesBox">
-				<div v-for="replies in recent_replies" class="repliesitem clearfix" v-link="{name:'article',params:{id:replies.id}}">
-					<a class="avatar" href="javascript:void(0);" v-link="{name:'userhome',params:{username:replies.author.loginname}}">
-						<img :src="replies.author.avatar_url" :alt="replies.author.loginname">
-					</a>
-					<div class="art-inf">
-						<a class="title">{{replies.title}}</a>
-						<span class="last-time">{{replies.last_reply_at | getLastTime }}</span>
+			<!-- 参与的主题 -->
+			<div class="userReplies">
+				<div class="userRepliesTitle">参与主题</div>
+				<div class="userRepliesBox">
+					<div v-for="replies in recent_replies" class="repliesitem clearfix">
+						<router-link :to="{name:'article',params:{id:replies.id}}">
+							<router-link class="avatar" :to="{name:'userhome',params:{username:replies.author.loginname}}">
+								<img :src="replies.author.avatar_url" :alt="replies.author.loginname">
+							</router-link>
+							<div class="art-inf">
+								<a class="title">{{replies.title}}</a>
+								<span class="last-time">{{replies.last_reply_at | getLastTime }}</span>
+							</div>
+						</router-link>
 					</div>
-				</div>
-				<div class="nodata" v-if="repliesShow">
-					<div class="nodataimg"></div>
-					还没有参与主题讨论
+					<div class="nodata" v-if="repliesShow">
+						<div class="nodataimg"></div>
+						还没有参与主题讨论
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 收藏主题 -->
-		<div class="userCollect">
-			<div class="userCollectTitle">收藏主题</div>
-			<div class="userCollectBox">
-				<div v-for="collect in topic_collect" class="collectitem clearfix" v-link="{name:'article',params:{id:collect.id}}">
-					<a class="avatar" href="javascript:void(0);" v-link="{name:'userhome',params:{username:collect.author.loginname}}">
-						<img :src="collect.author.avatar_url" :alt="collect.author.loginname">
-					</a>
-					<div class="art-inf">
-						<a class="title">{{collect.title}}</a>
-						<span class="last-time">{{collect.last_reply_at | getLastTime }}</span>
+			<!-- 收藏主题 -->
+			<div class="userCollect">
+				<div class="userCollectTitle">收藏主题</div>
+				<div class="userCollectBox">
+					<div v-for="collect in topic_collect" class="collectitem clearfix">
+						<router-link :to="{name:'article',params:{id:collect.id}}">
+							<router-link class="avatar" :to="{name:'userhome',params:{username:collect.author.loginname}}">
+								<img :src="collect.author.avatar_url" :alt="collect.author.loginname">
+							</router-link>
+							<div class="art-inf">
+								<a class="title">{{collect.title}}</a>
+								<span class="last-time">{{collect.last_reply_at | getLastTime }}</span>
+							</div>
+						</router-link>
 					</div>
-				</div>
-				<div class="nodata" v-if="collectShow">
-					<div class="nodataimg"></div>
-					没有收藏主题
+					<div class="nodata" v-if="collectShow">
+						<div class="nodataimg"></div>
+						没有收藏主题
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-	import store from '../vuex/store';
+	import axios from 'axios';
 	import nvHeader from '../components/header.vue';
-	// import {getLoginState, getUserInfo} from '../vuex/getters';
 	export default {
 		data : function() {
 			return {
@@ -95,12 +102,22 @@
 				topic_collect : []
 			}
 		},
-		route : {
-			data(transition) {
-				this.user_name = transition.to.params.username;
+		watch : {
+			// 当在userhome内的子路有发生改变时调用
+			$route : 'getUserHome'
+		},
+		mounted : function() {
+			this.getUserHome();	
+		},
+		methods : {
+			// 用户参与主题
+			getUserHome : function() {
+				this.user_name = this.$route.params.username;
 				// 获取创建主题列表和参与话题列表
-				$.get('https://cnodejs.org/api/v1/user/'+this.user_name, (d) => {
-					if(d.success){
+				axios.get('https://cnodejs.org/api/v1/user/'+this.user_name)
+				.then((response) => {
+					if (response.data.success) {
+						const d = response.data;
 						this.user_avatar = d.data.avatar_url;
 						this.score = d.data.score;
 						this.create_at = d.data.create_at;
@@ -111,20 +128,26 @@
 						this.recent_replies.length === 0 ? this.repliesShow = true : this.repliesShow = false;
 					}
 				})
+				.catch(function(error) {
+					console.log(error);
+				})
 				// 获取收藏主题列表
-				$.get('https://cnodejs.org/api/v1/topic_collect/'+this.user_name, (d) => {
-					if(d.success){
+				axios.get('https://cnodejs.org/api/v1/topic_collect/'+this.user_name)
+				.then((response) => {
+					if (response.data.success) {
+						const d = response.data;
 						this.topic_collect = d.data;
 						this.topic_collect.length === 0 ? this.collectShow = true : this.collectShow = false
 					}
 				})
-
+				.catch(function(error) {
+					console.log(error);
+				})
 			}
 		},
 		components : {
-			'nv-header' : nvHeader
-		},
-		store : store
+			nvHeader
+		}
 	}
 </script>
 <style lang="sass">

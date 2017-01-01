@@ -1,29 +1,25 @@
 <template>
 	<div v-if="tipShow" class="tips-cover">
 		<div class="alert">
-			<div class="tipcon">{{tipContent}}</div>
+			<div class="tipcon">{{tipShowContent}}</div>
 			<div class="ok" @click="isHide">OK</div>
 		</div>
 	</div>
 </template>
 <script>
-	import {setTipShow, setTipContent} from '../vuex/actions';
-	import {getTipShow, getTipContent} from '../vuex/getters';
 	export default {
-		methods : {
-			isHide : function() {
-				this.setTipShow(false);
-				this.setTipContent('');
+		computed : {
+			tipShow() {
+				return this.$store.getters.getTipShow;
+			},
+			tipShowContent() {
+				return this.$store.getters.getTipContent;
 			}
 		},
-		vuex : {
-			actions : {
-				setTipShow : setTipShow,
-				setTipContent : setTipContent
-			},
-			getters : {
-				tipShow : getTipShow,
-				tipContent : getTipContent
+		methods : {
+			isHide : function() {
+				this.$store.dispatch('setTipShow', false);
+				this.$store.dispatch('setTipContent', '');
 			}
 		}
 

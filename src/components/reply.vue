@@ -1,7 +1,7 @@
 <template>
 	<div class="reply-box">
 		<div class="textinp">
-			<textarea v-el:textarea v-model="repliescontent" placeholder="请输入留言"></textarea>
+			<textarea ref="textarea" v-model="repliescontent" placeholder="请输入留言"></textarea>
 		</div>
 		<div class="textsub">
 			<span class="rebtn" @click="recomment">回复</span>
@@ -9,82 +9,80 @@
 	</div>
 </template>
 <script>
-	import {setTipShow, setTipContent} from '../vuex/actions';
-	import {getUserInfo} from '../vuex/getters';
+	import axios from 'axios';
 	export default {
-		props : ['replycontent', 'artid', 'islogin', 'replyid', 'replythisid', 'replyto'],
+		// 本页面的评论， 回复文章id， 回复某条评论的id， 该评论id，回复某条评论的所有者
+		props : ['replycontent', 'artid', 'replyid', 'replythisid', 'replyto'],
 		data : function() {
 			return {
 				repliescontent : '',
-				accesstoken : this.getUserInfo.accesstoken
+				last_text : '<br/><br/>&lt;a href=https://github.com/cwsjoker/Cnode-vue-spa">来自炫酷吊炸天 Cnode</a>'
 			}
 		},
-		ready : function() {
-			console.log(this.replythisid);
-			console.log(this.replyto);
-			if(this.replythisid){
+		mounted : function() {
+			if (this.replyid) {
 				this.repliescontent = '@' + this.replyto + ' ';
 			}
-			this.$els.textarea.focus();
+			this.$refs.textarea.focus();
+		},
+		computed: {
+			// 登陆状态
+			LoginState() {
+				return this.$store.getters.getLoginState;
+			},
+			// 登陆用户信息
+			userInfo() {
+				return this.$store.getters.getUserInfo;
+			}
 		},
 		methods : {
 			recomment : function() {
 				// 判断是否登录，如果为登录去登录页面
-				// console.log(this.replycontent);
-				// console.log(this.artid);
-				// console.log(this.islogin);
-				// console.log(this.replyid);
-				if(this.islogin){
+				if (this.LoginState) {
 					// 判断内容是否为空
-					if(this.repliescontent !== ''){
+					if (this.repliescontent !== '') {
 						// 回复内容不为空
 						// const arr = window.location.href.split('/');
-						const time = new Date();
-						const url = 'https://cnodejs.org/api/v1/topic/'+ this.artid +'/replies';
-						const rqdata = {
-								'accesstoken' : this.accesstoken,
-								'content' : this.repliescontent,
-								'replies' : this.replyid
-						}
-						$.post(url, rqdata, (data) => {
-							if(data){
+						let id = '';
+						this.replyid ? id = this.replyid : id = '';
+						axios.post('https://cnodejs.org/api/v1/topic/'+ this.artid +'/replies', {
+							accesstoken : this.userInfo.accesstoken,
+							content : this.repliescontent + this.last_text,
+							replies : id
+						})
+						.then((response) => {
+							if (response.data.success) {
 								// 评论成功
-								this.replycontent.push({
-									'author' : {
-										'avatar_url' : getUserInfo.avatar,
-										'loginname' : getUserInfo.loginname
-									},
-									'content' : this.repliescontent,
-									'create_at' : time,
-									'id' : getUserInfo.id,
-									'reply_id' : this.replyid,
-									'ups' : []
+								const time = new Date();
+								axios.get('https://cnodejs.org/api/v1/topic/'+this.artid)
+								.then((response_reply) => {
+									if(response_reply.data.success) {
+										const D = response_reply.data.data;
+										this.$store.dispatch('setReplies', D.replies);
+										this.repliescontent = '';
+										if(this.replythisid) {
+											this.$emit('recomment');
+										}
+									}
 								})
-								this.repliescontent = '';
-								if(this.replythisid){
-									this.replythisid = '';
-								}
-							}else{
+								.catch(function(error) {
+									console.log(error);
+								})
+							} else {
 								// 提交评论失败
 							}
 						})
-					}else{
+						.catch(function(error) {
+							console.log(error);
+						})
+					} else {
 						// 内容为空
-						this.tipShow(true);
-						this.tipContent('回复内容不能为空。');
+						this.$store.dispatch('setTipShow', true);
+						this.$store.dispatch('setTipContent', '回复内容不能为空！');
 					}
-				}else{
-					this.$route.router.go({name : 'login'});
+				} else {
+					this.$router.push({name : 'login'});
 				}
-			}
-		},
-		vuex : {
-			actions : {
-				tipShow : setTipShow,
-				tipContent : setTipContent
-			},
-			getters : {
-				getUserInfo : getUserInfo
 			}
 		}
 	}

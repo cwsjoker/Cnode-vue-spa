@@ -1,11 +1,14 @@
 <template>
-	<div class="page-cover"  v-show="coverShow" v-on:click="hideMenu"></div>
-	<div class="header">
-		<span class="left-menu" v-on:click="showMenu"></span>cnode.js
+	<div>
+		<div class="page-cover"  v-show="coverShow" v-on:click="hideMenu"></div>
+		<div class="header">
+			<span class="left-menu" v-on:click="showMenu"></span>cnode.js
+		</div>
+		<nv-menu :showm="menuShow"></nv-menu>
 	</div>
-	<nv-menu :showm="menuShow"></nv-menu>
 </template>
 <script>
+	import nvMenu from './menu.vue';
 	export default {
 		data : function() {
 			return {
@@ -25,7 +28,7 @@
 
 		},
 		components : {
-            'nv-menu' : require('./menu.vue')
+            nvMenu
         }
 	}
 </script>
