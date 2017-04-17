@@ -1,12 +1,12 @@
-#webpack+vue.js重构的cnode社区的单页面(spa)应用
-###[1.0线上预览地址](https://cwsjoker.github.io/mystatic/CNode_Vue_Spa/index.html)
-###项目已采用vue2+vue-router2+vuex2全家桶重构，1.0请转到分支version1
+# webpack+vue.js重构的cnode社区的单页面(spa)应用 #
+### [1.0线上预览地址](https://cwsjoker.github.io/mystatic/CNode_Vue_Spa/index.html) ###
+### 项目已采用vue2+vue-router2+vuex2全家桶重构，1.0请转到分支version1 ###
 
-##Installation##
+## Installation ##
 安装第三方npm模块依赖</br>
 <pre>npm install</pre>
 
-##Usage##
+## Usage ##
 
 生产环境</br>
 1.运行npm run build打包</br>
@@ -16,19 +16,19 @@
 1.运行npm run dev热替换模式，代理到本地的http://localhost:8080端口</br>
 2.访问http://localhost:8080
 
-##技术栈##
+## 技术栈 ##
 1.vue-router-路由切换，axios-Ajax请求</br>
 2.vuex+localStorage引入保存用户信息，弹窗状态信息</br>
 3.es6+vue2.0.js开发</br>
 4.webpack打包构建
 
-##项目进度##
+## 项目进度 ##
 2.0已实现全部功能有：
 主题列表页，主题详情页(收藏，点赞，评论)，用户登录，个人主页, 消息模块，创建主题与修改主题
 
-##文件目录
+## 文件目录
 <pre>
-##开发目录
+## 开发目录
 ├── README.md           
 ├── index.html         // 项目入口文件
 ├── package.json       // 项目配置文件
